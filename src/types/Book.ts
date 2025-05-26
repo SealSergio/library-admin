@@ -1,5 +1,4 @@
-import { z } from 'zod';
-import { BookCard } from '../components/BookCard/BookCard';
+import { z } from "zod";
 
 export const BookSchema = z.object({
     id: z.string(),
@@ -13,3 +12,5 @@ export type Book = z.infer<typeof BookSchema>;
 export const BookList = z.array(BookSchema);
 
 export type BookList = z.infer<typeof BookList>;
+
+export type BookData = Book | null;

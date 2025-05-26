@@ -1,6 +1,6 @@
 import { FC } from "react";
 import "BookCard.scss";
-import { Book } from "../../api/Book";
+import { Book } from "../../types/Book";
 
 interface BookCardProps {
   book: Book;

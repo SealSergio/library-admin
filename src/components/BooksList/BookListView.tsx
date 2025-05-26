@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BookList } from "../../api/Book";
+import { BookList } from "../../types/Book";
 import { BookCard } from "../BookCard/BookCard";
 import "./BookList.scss";
 

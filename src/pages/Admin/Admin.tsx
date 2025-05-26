@@ -1,19 +1,18 @@
 import { FC } from "react";
+import "./Admin.scss";
 
 import { Header } from "../../components/Header/Header";
 import { Aside } from "../../components/Aside/Aside";
-import { BookListView } from "../../components/BooksGrid/BookListView";
+import { Main } from "../../components/Main/Main";
 
 export const Admin: FC = () => {
     return (
         <>
-          <Header />
-          <div className="container container--admin-inner">
-            <Aside />
-            <div className="section-books">
-                {/* <BookListView bookList={}/> */}
+            <Header />
+            <div className="container container--admin-inner">
+                <Aside />
+                <Main content="books"/>
             </div>
-          </div>
         </>
       )
 }
