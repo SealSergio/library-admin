@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { BookList } from "../../types/Book";
 import { BookCard } from "../BookCard/BookCard";
-import "./BookList.scss";
+import "./BookListView.scss";
 
 export interface BookListProps  {
     bookList: BookList;

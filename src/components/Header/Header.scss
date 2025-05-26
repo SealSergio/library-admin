@@ -32,4 +32,8 @@
 .header__btn {    
     color: var(--darkest-grey);
     font-weight: 500;
+
+    &:hover, &:active {
+        color: var(--gold);
+    }
 }

@@ -5,9 +5,10 @@ import { Filters } from "../Filters/Filters";
 import { BookListView } from "../BooksList/BookListView";
 import { MainContent } from "../../types/Main";
 import { Support } from "../Support/Support";
+import { FetchPostListView } from "../BooksList/FetchBookListView";
 
 interface MainProps {
-  content: MainContent;
+    content: MainContent;
 }
 
 export const Main: FC<MainProps> = ({content}) => {
@@ -18,7 +19,8 @@ export const Main: FC<MainProps> = ({content}) => {
                     <BookForm bookData={null}/>
                     <div className="section-books">
                         <Filters />
-                        {/* <BookListView bookList={}/> */}
+                        {/* <BookListView bookList={allBooks}/> */}
+                        <FetchPostListView />
                     </div>
                 </main>
             )
