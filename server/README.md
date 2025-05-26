@@ -2,13 +2,9 @@
 
 ## Запуск
 
-Установить необходимы зависимости:
-
 ```shell
     npm install
 ```
-
-Выполнить команду:
 
 ```shell
     npm run dev
@@ -61,17 +57,13 @@
 }
 ```
 
-- `/notes` - список заметок, формат ответа:
+- `/books` - список книг, формат ответа:
 
 ```json
 {
   "list": [
     {
-      "id": "982bc6f8-08e9-42bf-ac7a-2bfa63643c4c",
-      "title": "Some large title",
-      "text": "Very very large text",
-      "userId": "4080a8c6-7f64-4a27-8dbd-85e6c7a15f28",
-      "createdAt": 1706119302723
+      // Добавить формат ответа
     }
   ],
   "pageCount": 1
