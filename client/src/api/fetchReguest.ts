@@ -63,7 +63,6 @@ type RequestState =
 export function usePostList() {
     const [state, setState] = useState<RequestState>({status: "idle"});
 
-
     useEffect(() => {
         if (state.status === "pending") {
             fetchBookList()

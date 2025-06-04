@@ -4,7 +4,7 @@ import { Loader } from "../../ui/Loader/Loader";
 import { BookListView } from "./BookListView";
 import { queryClient } from "../../api/queryClient";
 
-export const FetchPostListView = () => {
+export const FetchBookListView = () => {
     const postListQuery = useQuery(
         {
             queryFn: () => fetchBookList(),
@@ -17,7 +17,6 @@ export const FetchPostListView = () => {
             return <Loader />;
         
         case "success":
-            console.log(postListQuery.data)
             return <BookListView bookList={postListQuery.data.list}/>;
 
         case "error":

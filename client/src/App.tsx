@@ -1,29 +1,21 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
-import { RouterContext } from "./contexts";
-import { UserContext } from "./contexts/UserContext";
-import { ROUTES } from "./Routes";
 
-import { Login } from "./pages/Login/Login";
 import { Admin } from "./pages/Admin/Admin";
+import { Login } from "./pages/Login/Login";
 
 function App() {
-    // const [currentRoute = "", setCurrentRoute] = useState(
-    //     ROUTES.find(route => location.pathname.includes(route.path))?.id,
-    // );
-    
     if ((localStorage.getItem("dark-mode")) === "true") {
         document.body.classList.add("dark-mode");
     }
 
-    const isAuthorized = Boolean(localStorage.getItem("authorized"));
+    const isAuthorized = Boolean(localStorage.getItem("isAuthorized"));
 
-    switch (isAuthorized) {
-        case true:
-            return <Login />
-        case false:
-            return <Admin />
-    }
+    return (
+        <BrowserRouter>
+            {isAuthorized ? <Admin /> : <Login />}
+        </BrowserRouter>
+    )
 }
 
 export default App
