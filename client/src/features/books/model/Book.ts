@@ -28,10 +28,3 @@ export const BookList = z.array(BookSchema);
 export type BookList = z.infer<typeof BookList>;
 
 export type BookData = Book | null;
-
-
-export const FetchBookListSchema = z.object({
-    list: BookList,
-})
-
-export type FetchBookListResponse = z.infer<typeof FetchBookListSchema>;
