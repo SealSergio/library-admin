@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchBookList } from "../../api/fetchReguest";
-import { Loader } from "../../ui/Loader/Loader";
+import { fetchBookList } from "../../../../api/fetchReguest";
+import { Loader } from "../../../../shared/components/Loader/Loader";
 import { BookListView } from "./BookListView";
-import { queryClient } from "../../api/queryClient";
+import { queryClient } from "../../../../api/queryClient";
 
 export const FetchBookListView = () => {
     const postListQuery = useQuery(

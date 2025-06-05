@@ -1,8 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
 
-import { Admin } from "./pages/Admin/Admin";
-import { Login } from "./pages/Login/Login";
+import { Admin } from "../pages/MainPage/Admin";
+import { Login } from "../pages/Login/Login";
 
 function App() {
     if ((localStorage.getItem("dark-mode")) === "true") {

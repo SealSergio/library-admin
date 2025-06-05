@@ -1,6 +1,6 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import "./Aside.scss";
-import {  Link } from "react-router-dom";
 
 export const Aside: FC = () => {
     return (

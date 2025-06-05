@@ -1,39 +1,12 @@
-import { BookList, FetchBookListSchema, FetchBookListResponse } from "../types/Book";
+import { useEffect, useState } from "react";
+import { BookList, FetchBookListResponse, FetchBookListSchema } from "../features/books/model/Book";
 import { validateResponse } from "./validateResponse";
-import { useState, useEffect } from "react";
-
-const URL = "../database/";
 
 export async function fetchBookList(): Promise<FetchBookListResponse> {
-    // return await fetch(`${URL}books.json`)
-    return await fetch(`api/books`)
+    return await fetch("api/books")
         .then(validateResponse)
         .then((response) => response.json())
         .then((data) => FetchBookListSchema.parse(data));
-
-//     try {
-
-//     const response = await fetch(`${URL}books.json`);
-
-//     if (!response.ok) {
-
-//       const errorText = await response.text();
-
-//       console.error('Ошибка сервера:', errorText);
-
-//       throw new Error(`Ошибка HTTP: ${response.status}`);
-
-//     }
-
-//     const data = await response.json();
-
-//     return data;
-
-//   } catch (error) {
-
-//     console.error('Ошибка при загрузке данных:', error);
-
-//   }
 }
 
 interface IdleRequestState {

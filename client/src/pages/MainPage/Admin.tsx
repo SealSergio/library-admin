@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Aside } from "../../components/Aside/Aside";
-import { BookForm } from "../../components/BookForm/BookForm";
-import { FetchBookListView } from "../../components/BooksList/FetchBookListView";
-import { Filters } from "../../components/Filters/Filters";
+import { BookForm } from "../../features/books/ui/BookForm/BookForm";
+import { FetchBookListView } from "../../features/books/ui/BooksList/FetchBookListView";
+import { Filters } from "../../features/books/ui/Filters/Filters";
 import { Header } from "../../components/Header/Header";
-import { Support } from "../../components/Support/Support";
-import { BookListView } from "../../components/BooksList/BookListView";
+import { Support } from "../../features/support/ui/Support";
+import { BookListView } from "../../features/books/ui/BooksList/BookListView";
 import "./Admin.scss";
 
 export const Admin: FC = () => {

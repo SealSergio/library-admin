@@ -3,6 +3,6 @@ import "./Support.scss";
 
 export const Support: FC = () => {
     return (
-        <div></div>
+        <div>Инструкиця по работе с админкой</div>
     )
 }
