@@ -1,21 +1,19 @@
+import React from 'react';
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
-
-import { Admin } from "../pages/MainPage/Admin";
+import { MainPage } from "../pages/MainPage/MainPage";
 import { Login } from "../pages/Login/Login";
 
-function App() {
+export function App() {
     if ((localStorage.getItem("dark-mode")) === "true") {
         document.body.classList.add("dark-mode");
-    }
+    };
 
     const isAuthorized = Boolean(localStorage.getItem("isAuthorized"));
 
     return (
         <BrowserRouter>
-            {isAuthorized ? <Admin /> : <Login />}
+            {isAuthorized ? <MainPage /> : <Login />}
         </BrowserRouter>
-    )
+    );
 }
-
-export default App

@@ -7,9 +7,9 @@ import { Filters } from "../../features/books/ui/Filters/Filters";
 import { Header } from "../../components/Header/Header";
 import { Support } from "../../features/support/ui/Support";
 import { BookListView } from "../../features/books/ui/BooksList/BookListView";
-import "./Admin.scss";
+import "./MainPage.scss";
 
-export const Admin: FC = () => {
+export const MainPage: FC = () => {
     return (
         <>
             <Header />
