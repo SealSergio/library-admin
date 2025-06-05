@@ -18,11 +18,12 @@ export interface ILoaderProps {
 export const Loader: FC<ILoaderProps> = ({ color = 'blue' }) => {
     return (
         <div className="loader-wrapper">
-            <div className="loader" data-color={color}>
+            {/* <div className="loader" data-color={color}>
                 <div className="loader__segment" />
                 <div className="loader__segment" />
                 <div className="loader__segment" />
-            </div>
+            </div> */}
+            Идет загрузка...
         </div>
     );
 };
