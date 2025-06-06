@@ -1,12 +1,13 @@
-import { FC } from "react";
+import { AuthorList } from "../../../authors/model/Author";
+import { GenreList } from "../../model/Genre";
 import "./BookForm.scss";
-import { BookData } from "../../model/Book";
 
 interface BookFormProps {
-    bookData: BookData;
+    genres: GenreList,
+    authors: AuthorList,
 }
 
-export const BookForm: FC<BookFormProps> = (bookData) => {
+export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
     return (
         <div className="book-form-wrapper">
             <h2 className="book-form__title">Добавить книгу</h2>

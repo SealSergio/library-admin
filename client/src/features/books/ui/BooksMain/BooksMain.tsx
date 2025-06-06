@@ -1,30 +1,49 @@
 import { ErrorMessage } from "../../../../shared/components/Error/Error"
 import { Loader } from "../../../../shared/components/Loader/Loader"
+import { useGetAllAuthorsQuery } from "../../../authors/api/authorsApi"
 import { useGetAllBooksQuery } from "../../api/booksApi"
+import { useGetAllGenresQuery } from "../../api/genresApi"
 import { BookForm } from "../BookForm/BookForm"
 import { BookListView } from "../BooksListView/BookListView"
 import { Filters } from "../Filters/Filters"
 
-
 export const BooksMain: React.FC = () => {
-    const { data: books, isError, isLoading } = useGetAllBooksQuery();
+    const books = (() => {
+        const { data, isError, isLoading } = useGetAllBooksQuery();
+        return { data, isError, isLoading };
+    })();
 
-    if (isError) {
-        return (<ErrorMessage />)
-    };
-    if (isLoading) return (<Loader />);
+    const authors = (() => {
+        const { data, isError, isLoading } = useGetAllAuthorsQuery();
+        return { data, isError, isLoading };
+    })();
 
-    return (
-        <>
-            <BookForm bookData={null}/>
-            <div className="section-books">
-                <Filters />
-                {books ? (
-                    <BookListView bookList={books}/>
-                ) : (
-                    <div>Нет книг</div>
-                )}
-            </div>
-        </>
-    )
+    const genres = (() => {
+        const { data, isError, isLoading } = useGetAllGenresQuery();
+        return { data, isError, isLoading };
+    })();
+
+    if (books.isLoading || authors.isLoading || genres.isLoading) {
+        return (<Loader />);
+    }
+
+    if (books.isError || authors.isError || genres.isError) {
+        return (<ErrorMessage />);
+    }
+
+    if (books.data && authors.data && genres.data) {
+        return (
+            <>
+                <BookForm genres={genres.data} authors={authors.data}/>
+                <div className="section-books">
+                    <Filters genres={genres.data} authors={authors.data}/>
+                    {books ? (
+                        <BookListView bookList={books.data}/>
+                    ) : (
+                        <div>Нет книг</div>
+                    )}
+                </div>
+            </>
+        )
+    }
 }
