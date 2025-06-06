@@ -3,7 +3,7 @@
 export const ErrorMessage: React.FC = () => {
     return (
         <div>
-            Оибка
+            Ошибка
         </div>
     )
 }

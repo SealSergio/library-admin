@@ -8,7 +8,6 @@ export interface BookListProps  {
 }
 
 export const BookListView: FC<BookListProps> = ({bookList}) => {
-    console.log(bookList)
     return (
         <ul className="books-grid">
             {bookList.map((book) => (

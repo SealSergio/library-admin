@@ -9,9 +9,10 @@ import { Filters } from "../Filters/Filters"
 export const BooksMain: React.FC = () => {
     const { data: books, isError, isLoading } = useGetAllBooksQuery();
 
-    if (isError) return (<ErrorMessage />);
+    if (isError) {
+        return (<ErrorMessage />)
+    };
     if (isLoading) return (<Loader />);
-    if (books) console.log(books)
 
     return (
         <>

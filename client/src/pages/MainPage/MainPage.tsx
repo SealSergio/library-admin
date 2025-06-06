@@ -10,19 +10,21 @@ import { store } from "../../app/providers/store";
 
 export const MainPage: React.FC = () => {
     return (
-        <Provider store={store}>
+        <>
             <Header />
             <div className="container container--admin-inner">
                 <Aside />
-                <main className="main">
-                    <Routes>
-                        <Route path="/books" element={<BooksMain />}/>
-                        <Route path="/authors" element={<AuthorsMain />}/>
-                        <Route path="/support" element={<Support />}/>
-                        <Route path="/" element={<Navigate to="/books" replace />} />
-                    </Routes>
-                </main>
+                <Provider store={store}>
+                    <main className="main">
+                        <Routes>
+                            <Route path="/books" element={<BooksMain />}/>
+                            <Route path="/authors" element={<AuthorsMain />}/>
+                            <Route path="/support" element={<Support />}/>
+                            <Route path="/" element={<Navigate to="/books" replace />} />
+                        </Routes>
+                    </main>
+                </Provider>
             </div>
-        </Provider>
+        </>
     );
 }
