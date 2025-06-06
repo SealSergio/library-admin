@@ -6,15 +6,15 @@ const commentSchema = z.object({
 });
 
 export const BookSchema = z.object({
-    id: z.string().length(5),
-    title: z.string(),
+    id: z.string(),
+    title: z.string().min(1),
     author: z.string(),
     authorFirstname: z.string(),
-    authorSecondname: z.string(),
+    authorSecondname: z.string().optional(),
     authorFamily: z.string(),
-    description: z.string(),
+    description: z.string().min(20),
     copies: z.number().positive(),
-    comments: z.array(commentSchema),
+    comments: z.array(commentSchema).optional(),
     genres: z.array(z.string()),
     age: z.array(z.string()),
     language: z.string(),

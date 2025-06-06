@@ -1,6 +1,11 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { AuthorList } from "../../../authors/model/Author";
+import { Book, BookSchema } from "../../model/Book";
 import { GenreList } from "../../model/Genre";
 import "./BookForm.scss";
+import { useEffect, useState } from 'react';
+import { GenresSelect } from '../GenresSelect/GenresSelect';
 
 interface BookFormProps {
     genres: GenreList,
@@ -8,18 +13,34 @@ interface BookFormProps {
 }
 
 export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
+    const newBookData = localStorage.getItem("newBookData");
+    const newBook = newBookData !== null ? JSON.parse(newBookData) : null;
+
+    const {register, handleSubmit, formState: { errors }} = useForm({
+        resolver: zodResolver(BookSchema),
+    });
+
+    const onSubmit = (data: Book | unknown) => {
+        console.log(data);
+    };
+    
+    const currentSelectedGenres = newBook?.genres ? newBook.genres : [];
+    const [selectedGenres, setSelectedGenres] = useState(currentSelectedGenres);
+
     return (
         <div className="book-form-wrapper">
             <h2 className="book-form__title">Добавить книгу</h2>
-            <form className="book-form">
+            <form className="book-form" onSubmit={handleSubmit(onSubmit)}>
                 <div className="book-form__half book-form__half--left">
                     <label className="form__label book-form__label">
                         <span className="form__label__title">ID</span>
-                        <input className="form__input book-form__input" type="text" placeholder="ID" disabled/>
+                        <input className="form__input book-form__input" type="text" placeholder="ID" disabled {...register("id")}/>
+                        {/* {errors.id && <p>ID должен содержать 5 символов</p>} */}
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Заголовок</span>
-                        <input className="form__input book-form__input" type="text" placeholder="Заголовок"/>
+                        <input className="form__input book-form__input" type="text" placeholder="Заголовок" {...register("title")}/>
+                        {errors.title && <p>Заголовок должен содержать не менее 1 символа</p>}
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Автор</span>
@@ -35,12 +56,16 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                     <div className="book-form__img">Загрузите фото</div>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Описание</span>
-                        <input className="form__input book-form__input" type="text" placeholder="Описание"/>
+                        <input className="form__input book-form__input" type="text" placeholder="Описание" {...register("description")}/>
+                        {errors.description && <p>Описание должно содержать не менее 20 символов</p>}
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Жанры</span>
-                        <input className="form__input book-form__input" type="text" placeholder="Жанры"/>
-                        <select name="genres"></select>
+                        <GenresSelect
+                            genres={genres}
+                            selectedGenres={selectedGenres}
+                            setSelectedGenres={setSelectedGenres}
+                        />
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Возраст</span>
@@ -54,7 +79,7 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Количество экземпляров</span>
-                        <input className="form__input book-form__input" type="number" placeholder="Описание"/>
+                        <input className="form__input book-form__input" type="number" placeholder="Экземпляры"/>
                     </label>
                     <button className="form__btn form__btn--submit" type="submit">
                         Сохранить

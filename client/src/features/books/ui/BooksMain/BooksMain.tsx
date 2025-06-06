@@ -1,11 +1,11 @@
-import { ErrorMessage } from "../../../../shared/components/Error/Error"
-import { Loader } from "../../../../shared/components/Loader/Loader"
-import { useGetAllAuthorsQuery } from "../../../authors/api/authorsApi"
-import { useGetAllBooksQuery } from "../../api/booksApi"
-import { useGetAllGenresQuery } from "../../api/genresApi"
-import { BookForm } from "../BookForm/BookForm"
-import { BookListView } from "../BooksListView/BookListView"
-import { Filters } from "../Filters/Filters"
+import { ErrorMessage } from "../../../../shared/components/Error/Error";
+import { Loader } from "../../../../shared/components/Loader/Loader";
+import { useGetAllAuthorsQuery } from "../../../authors/api/authorsApi";
+import { useGetAllBooksQuery } from "../../api/booksApi";
+import { useGetAllGenresQuery } from "../../api/genresApi";
+import { BookForm } from "../BookForm/BookForm";
+import { BookListView } from "../BooksListView/BookListView";
+import { Filters } from "../Filters/Filters";
 
 export const BooksMain: React.FC = () => {
     const books = (() => {
