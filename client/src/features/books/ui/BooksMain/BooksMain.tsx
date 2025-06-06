@@ -22,7 +22,7 @@ export const BooksMain: React.FC = () => {
                 {books ? (
                     <BookListView bookList={books}/>
                 ) : (
-                    <Loader />
+                    <div>Нет книг</div>
                 )}
             </div>
         </>
