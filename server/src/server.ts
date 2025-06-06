@@ -2,7 +2,7 @@ import express, { json } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
-import { booksRouter, authorsRouter, usersRouter, authRouter } from './routes';
+import { booksRouter, authorsRouter, usersRouter, authRouter, genresRouter } from './routes';
 
 import { sleep } from './sleep.js';
 
@@ -17,6 +17,8 @@ server.use(json(), cookieParser(), cors(), sleep([400, 1500]));
 server.use('/books', booksRouter);
 
 server.use('/authors', authorsRouter);
+
+server.use('/genres', genresRouter);
 
 server.use('/notes', usersRouter);
 

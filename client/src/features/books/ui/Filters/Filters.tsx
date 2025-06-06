@@ -1,6 +1,7 @@
 import { ErrorMessage } from "../../../../shared/components/Error/Error";
 import { Loader } from "../../../../shared/components/Loader/Loader";
 import { useGetAllAuthorsQuery } from "../../../authors/api/authorsApi";
+import { useGetAllGenresQuery } from "../../api/genresApi";
 import "./Filters.scss";
 
 export const Filters: React.FC = () => {
@@ -13,8 +14,16 @@ export const Filters: React.FC = () => {
     };
 
     const TOGGLE_SVG = <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8.29 4.29a1 1 0 0 1 1.41 0l7.3 7.3a1 1 0 0 1 0 1.41l-7.3 7.3a1 1 0 1 1-1.41-1.41L14.58 12 8.29 5.71a1 1 0 0 1 0-1.42z"/></svg>;
-    
-    const { data: authors, isError, isLoading } = useGetAllAuthorsQuery();
+
+    const authors = (() => {
+        const { data, isError, isLoading } = useGetAllAuthorsQuery();
+        return { data, isError, isLoading };
+    })();
+
+    const genres = (() => {
+        const { data, isError, isLoading } = useGetAllGenresQuery();
+        return { data, isError, isLoading };
+    })();
 
     return (
         <div className="catalog-sidebar">
@@ -24,21 +33,18 @@ export const Filters: React.FC = () => {
                     {TOGGLE_SVG}
                 </button>
                 <div className="sidebar-content sidebar-content_genres">
-                    <label className="filter-option"><input type="checkbox" name="genre" value="classic" /> Классика</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="fantasy" /> Фантастика</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="detective" /> Детективы</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="novel" /> Романы</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="fantasy" /> Фэнтези</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="science" /> Научная литература</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="poetry" /> Поэзия</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="historical" /> Исторические</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="biography" /> Биографии</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="psychology" /> Психология</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="children" /> Детские</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="adventure" /> Приключения</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="horror" /> Ужасы</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="humor" /> Юмор</label>
-                    <label className="filter-option"><input type="checkbox" name="genre" value="business" /> Бизнес</label>
+                    {genres.data ? (
+                        genres.data.map((genre) => (
+                            <label key={genre} className="filter-option">
+                                <input type="checkbox" name="genre" value={genre} />
+                                {genre}
+                            </label>
+                        ))
+                    ) : genres.isLoading ? (
+                        <Loader />
+                    ) : (
+                        genres.isError && <ErrorMessage />
+                    )}
                 </div>
             </div>
             <div className="sidebar-group">
@@ -47,17 +53,17 @@ export const Filters: React.FC = () => {
                     {TOGGLE_SVG}
                 </button>
                 <div className="sidebar-content sidebar-content_authors">
-                    {authors ? (
-                        authors.map((author) => (
+                    {authors.data ? (
+                        authors.data.map((author) => (
                             <label key={author.id} className="filter-option">
                                 <input type="checkbox" name="author" value={author.id} />
                                 {author.author}
                             </label>
                         ))
-                    ) : isLoading ? (
+                    ) : authors.isLoading ? (
                         <Loader />
                     ) : (
-                        isError && <ErrorMessage />
+                        authors.isError && <ErrorMessage />
                     )}
                 </div>
             </div>
