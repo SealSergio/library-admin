@@ -2,7 +2,7 @@ import { ErrorMessage } from "../../../../shared/components/Error/Error"
 import { Loader } from "../../../../shared/components/Loader/Loader"
 import { useGetAllBooksQuery } from "../../api/booksApi"
 import { BookForm } from "../BookForm/BookForm"
-import { BookListView } from "../BooksList/BookListView"
+import { BookListView } from "../BooksListView/BookListView"
 import { Filters } from "../Filters/Filters"
 
 

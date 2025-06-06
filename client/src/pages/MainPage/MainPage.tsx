@@ -1,12 +1,12 @@
+import { Provider } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { store } from "../../app/providers/store";
 import { Aside } from "../../components/Aside/Aside";
 import { Header } from "../../components/Header/Header";
 import { AuthorsMain } from "../../features/authors/ui/AuthorsMain/AuthorsMain";
 import { BooksMain } from "../../features/books/ui/BooksMain/BooksMain";
 import { Support } from "../../features/support/ui/Support";
 import "./MainPage.scss";
-import { Provider } from "react-redux";
-import { store } from "../../app/providers/store";
 
 export const MainPage: React.FC = () => {
     return (
