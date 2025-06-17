@@ -8,7 +8,7 @@ export const AuthorListView: React.FC<AuthorListProps> = ({ authors }) => {
         return (
             <ul>
                 {authors.map((author) => 
-                        <li>{author.author}</li>
+                        <li key={author.author}>{author.author}</li>
                     )}
             </ul>
         )
