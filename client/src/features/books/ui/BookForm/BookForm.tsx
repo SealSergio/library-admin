@@ -4,7 +4,8 @@ import { AuthorList } from "../../../authors/model/Author";
 import { Book, BookSchema } from "../../model/Book";
 import { GenreList } from "../../model/Genre";
 import "./BookForm.scss";
-import { useEffect, useState } from 'react';
+import TextareaAutosize from "react-textarea-autosize";
+import { useState } from 'react';
 import { GenresSelect } from '../GenresSelect/GenresSelect';
 
 interface BookFormProps {
@@ -30,7 +31,10 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
     return (
         <div className="book-form-wrapper">
             <h2 className="book-form__title">Добавить книгу</h2>
-            <form className="book-form" onSubmit={handleSubmit(onSubmit)}>
+            <form className="book-form" onSubmit={(event) => {
+                event.preventDefault();
+                handleSubmit(onSubmit);
+            }}>
                 <div className="book-form__half book-form__half--left">
                     <label className="form__label book-form__label">
                         <span className="form__label__title">ID</span>
@@ -56,7 +60,14 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                     <div className="book-form__img">Загрузите фото</div>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Описание</span>
-                        <input className="form__input book-form__input" type="text" placeholder="Описание" {...register("description")}/>
+                        <div className="input-descr-wrapper">
+                            <TextareaAutosize
+                                className="form__input book-form__input textarea-descr"
+                                placeholder="Описание"
+                                {...register("description")}
+                                maxRows={8}
+                            />
+                        </div>
                         {errors.description && <p>Описание должно содержать не менее 20 символов</p>}
                     </label>
                     <label className="form__label book-form__label">
@@ -79,7 +90,11 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Количество экземпляров</span>
-                        <input className="form__input book-form__input" type="number" placeholder="Экземпляры"/>
+                        <input
+                            className="form__input book-form__input"
+                            type="number"
+                            min="0"
+                            placeholder="Экземпляры"/>
                     </label>
                     <button className="form__btn form__btn--submit" type="submit">
                         Сохранить
