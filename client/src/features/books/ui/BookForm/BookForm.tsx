@@ -7,6 +7,8 @@ import "./BookForm.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import { useState } from 'react';
 import { GenresSelect } from '../GenresSelect/GenresSelect';
+import { useCreateSelect } from '../../../../shared/hooks/useCreateSelect';
+import { Select } from '../../../../shared/components/Select/Select';
 
 interface BookFormProps {
     genres: GenreList,
@@ -28,6 +30,13 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
     const currentSelectedGenres = newBook?.genres ? newBook.genres : [];
     const [selectedGenres, setSelectedGenres] = useState(currentSelectedGenres);
 
+    const [age, setAge] = useState<string>("Возраст");
+    const {
+            selectRef: ageSelectRef,
+            handleToggle: toggleAge,
+            isOpen: isAgeSelectOpen
+        } = useCreateSelect<HTMLLabelElement>();
+
     return (
         <div className="book-form-wrapper">
             <h2 className="book-form__title">Добавить книгу</h2>
@@ -38,8 +47,7 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                 <div className="book-form__half book-form__half--left">
                     <label className="form__label book-form__label">
                         <span className="form__label__title">ID</span>
-                        <input className="form__input book-form__input" type="text" placeholder="ID" disabled {...register("id")}/>
-                        {/* {errors.id && <p>ID должен содержать 5 символов</p>} */}
+                        <input className="form__input book-form__input book-form__input--id" type="text" placeholder="ID" disabled {...register("id")}/>
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Заголовок</span>
@@ -78,15 +86,17 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                             setSelectedGenres={setSelectedGenres}
                         />
                     </label>
-                    <label className="form__label book-form__label">
+                    <label className="form__label book-form__label label--age" ref={ageSelectRef}>
                         <span className="form__label__title">Возраст</span>
-                        <input className="form__input book-form__input" type="text" placeholder="Возраст"/>
-                        <select name="age">
-                            <option value="0-6">0-6</option>
-                            <option value="7-12">7-12</option>
-                            <option value="13-18">13-18</option>
-                            <option value="18+">18+</option>
-                        </select>
+                        <button className={`form__input book-form__input book-form__input--age ${age === "Возраст" && "defaultValue"}`} onClick={toggleAge}>
+                            {age}
+                        </button>
+                        {isAgeSelectOpen && (
+                            <Select
+                                items={["Любой", "0+", "6+", "12+", "16+"]}
+                                handleClickOnItem={setAge}
+                            />
+                        )}
                     </label>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Количество экземпляров</span>
