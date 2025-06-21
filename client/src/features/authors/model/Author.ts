@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const AuthorSchema = z.object({
     id: z.string(),
-    author: z.string(),
+    name: z.string(),
 });
 
 export type Author = z.infer<typeof AuthorSchema>;

@@ -8,7 +8,7 @@ export const authorsRouter = Router();
 const GetAuthorsSchema = z
   .object({
     id: z.string(),
-    author: z.string(),
+    name: z.string(),
   });
 
 authorsRouter.get("/", (req, res) => {

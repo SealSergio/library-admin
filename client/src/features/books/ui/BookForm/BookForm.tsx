@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import TextareaAutosize from "react-textarea-autosize";
+import { Select } from '../../../../shared/components/Select/Select';
+import { useCreateSelect } from '../../../../shared/hooks/useCreateSelect';
 import { AuthorList } from "../../../authors/model/Author";
 import { Book, BookSchema } from "../../model/Book";
 import { GenreList } from "../../model/Genre";
-import "./BookForm.scss";
-import TextareaAutosize from "react-textarea-autosize";
-import { useState } from 'react';
 import { GenresSelect } from '../GenresSelect/GenresSelect';
-import { useCreateSelect } from '../../../../shared/hooks/useCreateSelect';
-import { Select } from '../../../../shared/components/Select/Select';
+import "./BookForm.scss";
 
 interface BookFormProps {
     genres: GenreList,
@@ -18,14 +19,6 @@ interface BookFormProps {
 export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
     const newBookData = localStorage.getItem("newBookData");
     const newBook = newBookData !== null ? JSON.parse(newBookData) : null;
-
-    const {register, handleSubmit, formState: { errors }} = useForm({
-        resolver: zodResolver(BookSchema),
-    });
-
-    const onSubmit = (data: Book | unknown) => {
-        console.log(data);
-    };
     
     const currentSelectedGenres = newBook?.genres ? newBook.genres : [];
     const [selectedGenres, setSelectedGenres] = useState(currentSelectedGenres);
@@ -36,6 +29,21 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
             handleToggle: toggleAge,
             isOpen: isAgeSelectOpen
         } = useCreateSelect<HTMLLabelElement>();
+
+    const {
+            selectRef: authorSelectRef,
+            handleToggle: toggleAuthor,
+            isOpen: isAuthorSelectOpen
+        } = useCreateSelect<HTMLLabelElement>();
+    const [newAuthor, setNewAuthor] = useState<{id: string, name: string}>({id: "", name: "Автор"});
+
+    const {register, handleSubmit, formState: { errors }} = useForm({
+        resolver: zodResolver(BookSchema),
+    });
+
+    const onSubmit = (data: Book | unknown) => {
+        console.log(data);
+    };
 
     return (
         <div className="book-form-wrapper">
@@ -54,11 +62,22 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                         <input className="form__input book-form__input" type="text" placeholder="Заголовок" {...register("title")}/>
                         {errors.title && <p>Заголовок должен содержать не менее 1 символа</p>}
                     </label>
-                    <label className="form__label book-form__label">
+                    <label className="form__label book-form__label label--age" ref={authorSelectRef}>
                         <span className="form__label__title">Автор</span>
-                        <input className="form__input book-form__input" type="text" placeholder="Автор"/>
-                        <select name="authors"></select>
+                        <button className={`form__input book-form__input book-form__input--age ${newAuthor.name === "Автор" && "defaultValue"}`} onClick={toggleAuthor}>
+                            {newAuthor.name}
+                        </button>
+                        {isAuthorSelectOpen && (
+                            <ul className="ageList">
+                            {authors.map((author) => (
+                                <li key={author.id} className="ageItem" onClick={() => setNewAuthor(author)}>{author.name}</li>
+                            ))}
+                        </ul>
+                        )}
                     </label>
+                    <Link to={"/authors"}>
+                        Новый автор
+                    </Link>
                     <label className="form__label form__label--checkbox book-form__label">
                         <span className="form__label__title">Часть цикла</span>
                         <input className="form__input book-form__input" type="checkbox" placeholder="Часть цикла"/>
@@ -109,7 +128,7 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                     <button className="form__btn form__btn--submit" type="submit">
                         Сохранить
                     </button>
-                    <button className="form__btn form__btn--reset" type="submit">
+                    <button className="form__btn form__btn--reset" type="button">
                         Удалить
                     </button>
                 </div>

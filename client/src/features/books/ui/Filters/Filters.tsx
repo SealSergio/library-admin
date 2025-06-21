@@ -43,7 +43,7 @@ export const Filters: React.FC<FilterProps> = ({ genres, authors }) => {
                     {authors.map((author) => (
                         <label key={author.id} className="filter-option">
                             <input type="checkbox" name="author" value={author.id} />
-                            {author.author}
+                            {author.name}
                         </label>
                     ))}
                 </div>
