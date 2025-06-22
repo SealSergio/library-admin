@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export function useCreateSelect<T extends HTMLElement>() {
+export function useSelect<T extends HTMLElement>() {
         const [isOpen, setIsOpen] = useState<boolean>(false);
 
         const selectRef = useRef<T>(null);

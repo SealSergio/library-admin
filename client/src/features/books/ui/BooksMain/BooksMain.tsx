@@ -1,8 +1,8 @@
 import { ErrorMessage } from "../../../../shared/components/Error/Error";
 import { Loader } from "../../../../shared/components/Loader/Loader";
-import { useGetAllAuthorsQuery } from "../../../authors/api/authorsApi";
-import { useGetAllBooksQuery } from "../../api/booksApi";
-import { useGetAllGenresQuery } from "../../api/genresApi";
+import { useGetAllAuthorsQuery } from "../../../authors/api/authors";
+import { useGetAllBooksQuery } from "../../api/books";
+import { useGetAllGenresQuery } from "../../api/genres";
 import { BookForm } from "../BookForm/BookForm";
 import { BookListView } from "../BooksListView/BookListView";
 import { Filters } from "../Filters/Filters";
@@ -37,7 +37,7 @@ export const BooksMain: React.FC = () => {
                 <BookForm genres={genres.data} authors={authors.data}/>
                 <div className="section-books">
                     <Filters genres={genres.data} authors={authors.data}/>
-                    {books ? (
+                    {books.data.length > 0 ? (
                         <BookListView bookList={books.data}/>
                     ) : (
                         <div>Нет книг</div>

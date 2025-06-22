@@ -20,7 +20,7 @@ export const MainPage: React.FC = () => {
                             <Route path="/books" element={<BooksMain />}/>
                             <Route path="/authors" element={<AuthorsMain />}/>
                             <Route path="/support" element={<Support />}/>
-                            <Route path="/" element={<Navigate to="/books" replace />} />
+                            <Route index element={<Navigate to="/books" replace />} />
                         </Routes>
                     </main>
                 </Provider>

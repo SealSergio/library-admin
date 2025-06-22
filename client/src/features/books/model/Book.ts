@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { nullable, z } from "zod";
 
 const commentSchema = z.object({
     author: z.string(),
@@ -8,17 +8,13 @@ const commentSchema = z.object({
 export const BookSchema = z.object({
     id: z.string(),
     title: z.string().min(1),
-    author: z.string(),
-    authorFirstname: z.string(),
-    authorSecondname: z.string().optional(),
-    authorFamily: z.string(),
+    authorId: z.string(),
     description: z.string().min(20),
-    copies: z.number().positive(),
+    quantity: z.number().positive(),
     comments: z.array(commentSchema).optional(),
     genres: z.array(z.string()),
-    age: z.array(z.string()),
+    age: z.string(),
     language: z.string(),
-    country: z.string(),
 });
 
 export type Book = z.infer<typeof BookSchema>;

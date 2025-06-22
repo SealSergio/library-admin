@@ -47,10 +47,9 @@
     background-color: var(--lightest-grey);
 }
 .textarea-descr {
-    padding: 9px;
+    box-sizing: border-box;
     width: 100%;
-    height: auto;
-    overflow-y: visible;
+    overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--dark-grey) var(--lightest-grey);
 }
