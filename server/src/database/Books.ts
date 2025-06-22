@@ -25,6 +25,11 @@ export interface IGetAllBooksOptions {
   searchString?: string;
 }
 
+// export interface IGetAllBooksResult {
+//   list: IBook[];
+//   pageCount: number;
+// }
+
 export interface IGetAllBooksResult {
   list: IBook[];
   pageCount: number;
@@ -34,10 +39,10 @@ export class Books {
   static getAllForUser(
     userId: string,
     { page, pageSize, searchString }: IGetAllBooksOptions = {},
-  ): IGetAllBooksResult {
-    let list = Object.values(database.data)
+  ): IBook[] {
+    // let list = Object.values(database.data)
       // .filter(obj =>obj.userId === userId);
-    let pageCount = 1;
+    // let pageCount = 1;
 
     // if (searchString) {
     //   list = list.filter((post) =>
@@ -50,10 +55,7 @@ export class Books {
       // list = list.slice(page * pageSize, (page + 1) * pageSize);
     // }
 
-    return {
-      list,
-      pageCount,
-    };
+    return Object.values(database.data);
   }
 
   // static async create(

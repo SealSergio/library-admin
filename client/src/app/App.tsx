@@ -4,7 +4,7 @@ import "./App.scss";
 import { MainPage } from "../pages/MainPage/MainPage";
 import { Login } from "../pages/Login/Login";
 
-export function App() {
+export const App = () => {
     if ((localStorage.getItem("dark-mode")) === "true") {
         document.body.classList.add("dark-mode");
     };

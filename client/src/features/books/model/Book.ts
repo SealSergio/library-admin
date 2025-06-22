@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { nullable, z } from "zod";
 
 const commentSchema = z.object({
     author: z.string(),
@@ -6,19 +6,15 @@ const commentSchema = z.object({
 });
 
 export const BookSchema = z.object({
-    id: z.string().length(5),
-    title: z.string(),
-    author: z.string(),
-    authorFirstname: z.string(),
-    authorSecondname: z.string(),
-    authorFamily: z.string(),
-    description: z.string(),
-    copies: z.number().positive(),
-    comments: z.array(commentSchema),
+    id: z.string(),
+    title: z.string().min(1),
+    authorId: z.string(),
+    description: z.string().min(20),
+    quantity: z.number().positive(),
+    comments: z.array(commentSchema).optional(),
     genres: z.array(z.string()),
-    age: z.array(z.string()),
+    age: z.string(),
     language: z.string(),
-    country: z.string(),
 });
 
 export type Book = z.infer<typeof BookSchema>;
@@ -26,12 +22,3 @@ export type Book = z.infer<typeof BookSchema>;
 export const BookList = z.array(BookSchema);
 
 export type BookList = z.infer<typeof BookList>;
-
-export type BookData = Book | null;
-
-
-export const FetchBookListSchema = z.object({
-    list: BookList,
-})
-
-export type FetchBookListResponse = z.infer<typeof FetchBookListSchema>;

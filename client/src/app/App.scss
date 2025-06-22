@@ -97,6 +97,10 @@ li {
     padding-right: var(--page-padding);
 }
 
+#root {
+    min-height: 100vh;
+}
+
 // Формы
 
 .form {

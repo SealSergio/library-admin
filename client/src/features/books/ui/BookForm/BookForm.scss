@@ -36,3 +36,77 @@
     color: var(--darkest-grey);
     text-align: center;
 }
+
+.book-form__input:focus, .book-form__input:active {
+    outline: none;
+}
+
+.input-descr-wrapper {
+    padding: 2px 4px;
+    border-radius: var(--small-radius);
+    background-color: var(--lightest-grey);
+}
+.textarea-descr {
+    box-sizing: border-box;
+    width: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--dark-grey) var(--lightest-grey);
+}
+
+.book-form__input[type="number"] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+}
+
+.book-form__input--id {
+    cursor: no-drop;
+}
+
+.label--age {
+    position: relative;
+}
+
+.ageList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 500px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: var(--light-grey);
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+}
+
+.ageItem {
+    display: block;
+    width: 100%;
+    padding: 12px 9px;
+    background: none;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    color: var(--darkest-grey);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--gold);
+    }
+
+    & input {
+        margin-right: 10px;
+        accent-color: var(--gold);
+    }
+}
+
+.book-form__input--age {
+    text-align: left;
+
+    &.defaultValue {
+    color: var(--middle-grey);
+}
+}
