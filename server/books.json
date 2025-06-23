@@ -3,15 +3,29 @@
         "id": "00101",
         "authorId": "001",
         "title": "Война и мир",
-        "authorFamily": "Толстой",
         "description": "Роман-эпопея про то, как Болконский под дубом лежал.",
         "quantity": 1,
         "comments": [
                 { "author": "Иван Иванов", "text": "По ней можно французский учить :)" },
                 { "author": "Петр Петров", "text": "Классика, которую должен прочитать каждый." }
             ],
-        "genres": ["novel", "classic", "scholl"],
-        "age": ["7-12", "13-18", "18+"],
+        "genres": ["novel", "classic", "school"],
+        "age": "12+",
+        "language": "russian",
+        "country": "Россия"
+    },
+    {
+        "id": "00102",
+        "authorId": "001",
+        "title": "Анна Каренина",
+        "description": "Про поезд",
+        "quantity": 1,
+        "comments": [
+                { "author": "Иван Иванов", "text": "По ней можно французский учить :)" },
+                { "author": "Петр Петров", "text": "Классика, которую должен прочитать каждый." }
+            ],
+        "genres": ["novel", "classic", "school"],
+        "age": "12+",
         "language": "russian",
         "country": "Россия"
     }

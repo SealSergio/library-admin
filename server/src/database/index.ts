@@ -7,3 +7,5 @@ export * from './Authors';
 export * from './Users';
 
 export * from "./Genres";
+
+export * from "./Cycles";

@@ -7,3 +7,5 @@ export * from "./books";
 export * from "./users";
 
 export * from "./genres";
+
+export * from "./cycles";
