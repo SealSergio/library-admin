@@ -46,6 +46,7 @@
     border-radius: var(--small-radius);
     background-color: var(--lightest-grey);
 }
+
 .textarea-descr {
     box-sizing: border-box;
     width: 100%;
@@ -107,6 +108,20 @@
     text-align: left;
 
     &.defaultValue {
-    color: var(--middle-grey);
+        color: var(--middle-grey);
+    }
 }
+
+.book-form__label--checkbox {
+    flex-direction: row;
+    gap: 15px;
+
+    & input {
+        cursor: pointer;
+    }
+}
+
+.checkbox-message {
+    display: block;
+    color: var(--red);
 }

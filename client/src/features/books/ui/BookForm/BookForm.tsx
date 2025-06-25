@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import TextareaAutosize from "react-textarea-autosize";
@@ -10,13 +10,17 @@ import { Book, BookSchema } from "../../model/Book";
 import { GenresSelect } from '../GenresSelect/GenresSelect';
 import "./BookForm.scss";
 import { getNewBook, setNewBook } from '../../api/localStorage';
+import { Cycle, CycleList } from '../../model/Cycle';
+import { CycleSelect } from '../CycleSelect/CycleSelect';
 
 interface BookFormProps {
+    books: Book[],
     genres: string[],
     authors: AuthorList,
+    cycles: CycleList,
 }
 
-export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
+export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycles }) => {
     const newBook = getNewBook();
     
     const [newBookId, setNewBookId] = useState<string | null>(newBook?.id || null);
@@ -24,10 +28,15 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
     const [newBookQuantity, setNewBookQuantity] = useState<number>(newBook?.quantity || 0);
     const [newBookGenres, setNewBookGenres] = useState<string[]>(newBook?.genres || []);
     const [newBookAge, setNewBookAge] = useState<string | null>(newBook?.age || null);
-    const [newBookAuthor, setNewBookAuthor] = useState<{id: string, name: string} | null>(newBook?.author || null);
-    const [newBookCycle, setNewBookCycle] = useState(newBook?.cycle || null);
+    const [newBookAuthor, setNewBookAuthor] = useState<{id: string, name: string} | null>(
+        newBook?.authorId && authors.find(author => author.id === newBook.authorId) || null
+    );
     const [newBookDescription, setNewBookDescription] = useState<string>(newBook?.description || "");
 
+    const [isPartOfCycle, setIsPartOfCycle] = useState<boolean>(newBook?.isPartOfCycle || false);
+    const [newBookCycle, setNewBookCycle] = useState<Cycle | null>(newBook?.cycle || null);
+    
+    const [showCycleMessage, setShowCycleMessage] = useState(false);
     const [showIdMessage, setShowIdMessage] = useState(false);
 
     const {
@@ -42,21 +51,40 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
             isOpen: isAuthorSelectOpen
         } = useSelect<HTMLLabelElement>();
 
-    function handleOnInput(value: string | number, setData: React.Dispatch<React.SetStateAction<any>>) {
-        setData(value);
-    }
+
+    const isInitialMount = useRef(true);
 
     useEffect(() => {
-        setNewBook({
-            id: newBookId,
-            title: newBookTitle,
-            // authorId: ,
-            description: newBookDescription,
-            genres: newBookGenres,
-            quantity: newBookQuantity,
-            cycle: newBookCycle
-        })
-    }, [newBookTitle, newBookGenres, newBookDescription,newBookQuantity, newBookCycle]);
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            setNewBook({
+                id: newBookId,
+                title: newBookTitle,
+                authorId: newBookAuthor?.id || null,
+                description: newBookDescription,
+                genres: newBookGenres,
+                quantity: newBookQuantity,
+                isPartOfCycle: isPartOfCycle,
+                cycle: newBookCycle,
+            })
+        }
+    }, [newBookTitle, newBookGenres, newBookDescription, newBookQuantity, isPartOfCycle, newBookCycle]);
+
+    function toggleCycleCheckbox() {
+        if (!isPartOfCycle && newBookAuthor && newBookTitle && !newBookCycle) {
+            setIsPartOfCycle(true);
+            setNewBookCycle({
+                cycleId: "",
+                cycleName: "",
+                authorId: newBookAuthor.id,
+                booksInCycle: [],
+            });
+        } else {
+            setIsPartOfCycle(false);
+            setNewBookCycle(null);
+        }
+    };
 
     const {register, handleSubmit, formState: { errors }} = useForm({
         resolver: zodResolver(BookSchema),
@@ -72,7 +100,9 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
             <form className="book-form" onSubmit={handleSubmit(onSubmit)}>
                 <div className="book-form__half book-form__half--left">
                     <label className="form__label book-form__label">
-                        <span className="form__label__title">{showIdMessage ? "ID генерируется автоматически" : " ID"}</span>
+                        <span className="form__label__title">
+                            {showIdMessage ? "ID генерируется автоматически" : " ID"}
+                        </span>
                         <input
                             className="form__input book-form__input book-form__input--id"
                             type="text"
@@ -90,7 +120,7 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                             className="form__input book-form__input"
                             type="text" placeholder="Заголовок"
                             {...register("title")}
-                            onInput={(event) => handleOnInput(event.currentTarget.value, setNewBookTitle)}
+                            onInput={(event) => setNewBookTitle(event.currentTarget.value)}
                         />
                         {errors.title && <p>Заголовок должен содержать не менее 1 символа</p>}
                     </label>
@@ -104,24 +134,47 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                         </button>
                         {isAuthorSelectOpen && (
                             <ul className="ageList">
-                            {authors.map((author) => (
-                                <li
-                                    key={author.id}
-                                    className="ageItem"
-                                    onClick={() => setNewBookAuthor(author)}>
-                                    {author.name}
-                                </li>
-                            ))}
+                                <Link to={"/authors"} className="new-autor-btn">
+                                    Новый автор
+                                </Link>
+                                {authors.map((author) => (
+                                    <li
+                                        key={author.id}
+                                        className="ageItem"
+                                        onClick={() => setNewBookAuthor(author)}>
+                                        {author.name}
+                                    </li>
+                                ))}
                         </ul>
                         )}
                     </label>
-                    <Link to={"/authors"}>
-                        Новый автор
-                    </Link>
-                    <label className="form__label form__label--checkbox book-form__label">
+                    <label className="form__label book-form__label--checkbox book-form__label">
                         <span className="form__label__title">Часть цикла</span>
-                        <input className="form__input book-form__input" type="checkbox" placeholder="Часть цикла"/>
+                        <input
+                            className={`form__input book-form__input input--cycle ${(!newBookAuthor || !newBookTitle) && "disabled"}`}
+                            type="checkbox"
+                            readOnly={(newBookAuthor && newBookTitle) ? false : true}
+                            checked={isPartOfCycle ? true : false}
+                            onChange={toggleCycleCheckbox}
+                            onMouseEnter={() => (!newBookAuthor || !newBookTitle) && setShowCycleMessage(true)}
+                            onMouseLeave={() => setShowCycleMessage(false)}
+                        />
                     </label>
+                    {showCycleMessage &&
+                        <span className="checkbox-message">Сначала укажите заголовок и автора</span>
+                    }
+                    {(isPartOfCycle && newBookAuthor && newBookCycle && newBookTitle) && (
+                        <label className="form__label book-form__label">
+                            <span className="form__label__title">Цикл</span>
+                            <CycleSelect
+                                cycles={cycles}
+                                newBookCycle={newBookCycle}
+                                setNewBookCycle={setNewBookCycle}
+                                newBookAuthorId={newBookAuthor.id}
+                                newBookTitle={newBookTitle}
+                            />
+                        </label>
+                    )}
                 </div>
                 <div className="book-form__half book-form__half_--ight">
                     <div className="book-form__img">Загрузите фото</div>
@@ -134,7 +187,7 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                                 {...register("description")}
                                 maxRows={8}
                                 value={newBookDescription}
-                                onInput={(event) => handleOnInput(event.currentTarget.value, setNewBookDescription)}
+                                onInput={(event) => setNewBookDescription(event.currentTarget.value)}
                             />
                         </div>
                         {errors.description && <p>Описание должно содержать не менее 20 символов</p>}
@@ -171,7 +224,7 @@ export const BookForm: React.FC<BookFormProps> = ({ genres, authors }) => {
                             placeholder="Экземпляры"
                             {...register("quantity", { valueAsNumber: true })}
                             value={newBookQuantity === 0 ? "" : newBookQuantity}
-                            onInput={(event) => handleOnInput(Number(event.currentTarget.value), setNewBookQuantity)}
+                            onInput={(event) => setNewBookQuantity(Number(event.currentTarget.value))}
                         />
                         {errors.quantity && <p>Должно быть не менее одного экземпляра</p>}
                     </label>

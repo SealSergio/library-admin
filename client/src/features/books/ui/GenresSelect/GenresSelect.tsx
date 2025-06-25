@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelect } from "../../../../shared/hooks/useSelect";
 import "./GenresSelect.scss";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 
 interface GenresSelectProps {
     genres: string[],
@@ -14,7 +14,6 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
     const [inputValue, setInputValue] = useState<string>("");
     const inputRef = useRef<HTMLInputElement>(null);
     
-
     const {
         selectRef: genreSelectRef,
         openSelect: openGenre,
@@ -69,7 +68,7 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
         }
     };
 
-    function handleDragEnd(result) {
+    function handleDragEnd(result: DropResult) {
         if (!result.destination) return;
 
         const newItems = Array.from(newBookGenres);

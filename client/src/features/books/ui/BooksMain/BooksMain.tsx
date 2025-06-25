@@ -25,7 +25,12 @@ export const BooksMain: React.FC = () => {
     if (booksData && authorsData && genresData && cyclesData) {
         return (
             <>
-                <BookForm genres={genresData} authors={authorsData}/>
+                <BookForm
+                    books={booksData}
+                    genres={genresData}
+                    authors={authorsData}
+                    cycles={cyclesData}
+                />
                 <div className="section-books">
                     <Filters genres={genresData} authors={authorsData}/>
                     {booksData.length > 0 ? (

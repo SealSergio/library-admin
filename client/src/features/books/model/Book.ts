@@ -1,4 +1,5 @@
-import { nullable, z } from "zod";
+import { z } from "zod";
+import { CycleSchema } from "./Cycle";
 
 const commentSchema = z.object({
     author: z.string(),
@@ -15,6 +16,8 @@ export const BookSchema = z.object({
     genres: z.array(z.string()),
     age: z.string(),
     language: z.string(),
+    isPartOfCycle: z.boolean(),
+    cycle: CycleSchema.optional(),
 });
 
 export type Book = z.infer<typeof BookSchema>;
