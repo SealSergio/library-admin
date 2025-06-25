@@ -3,6 +3,7 @@ import { useSelect } from "../../../../shared/hooks/useSelect";
 import "./CycleSelect.scss";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { useGetAllBooksQuery } from "../../api/books";
+import { Link } from "react-router-dom";
 
 type Cycle = {
     cycleId: string,
@@ -27,14 +28,14 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
     newBookTitle,
 }) => {
     const { data: books } = useGetAllBooksQuery();
-    const [filteredCycles, setFilteredCycles] = useState<Cycle[]>(cycles.filter(cycle => (
-        cycle.authorId === newBookAuthorId
+    const [filteredCycles, setFilteredCycles] = useState<Cycle[]>(
+        cycles.filter(cycle => (cycle.authorId === newBookAuthorId
     )));
     const [cycleName, setCycleName] = useState<string>(
         newBookCycle.cycleName !== "" ? newBookCycle.cycleName
         : (filteredCycles.length === 1) ? filteredCycles[0].cycleName
         : ""
-    );    
+    );
     const [booksInCycle, setBooksInCycle] = useState<string[]>(newBookCycle.booksInCycle);
     const inputRef = useRef<HTMLInputElement>(null);
     
@@ -68,9 +69,9 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
 
     useEffect(() => {
         if (filteredCycles.length === 1) {
-            setBooksInCycle(filteredCycles[0].booksInCycle)
+            setBooksInCycle([...filteredCycles[0].booksInCycle, newBookTitle])
         } else {
-            setBooksInCycle([])
+            setBooksInCycle([newBookTitle])
         }
     }, [filteredCycles]);
 
@@ -91,10 +92,6 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
             setCycleName(newCycleName)
         }
     };
-
-    // // function deleteOption(dataItem: string) {
-    // //     setNewBookCycle(newBookCycle.filter(item => item !== dataItem));
-    // // }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         event.stopPropagation();
@@ -140,6 +137,7 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
                 />
                 {isCycleSelectOpen && (
                     <div className="optionListWrapper">
+                        <Link to={"/"}>Новый цикл</Link>
                         <ul className="optionList">
                             {filteredCycles.length > 0 ? (
                                 filteredCycles.map((cycle) => (
@@ -166,7 +164,7 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
                             <Droppable droppableId="droppable" direction="vertical">
                                 {(provided) => (
                                 <ul className="genres-list" {...provided.droppableProps} ref={provided.innerRef}>
-                                    {[...newBookCycle.booksInCycle, newBookTitle].map((item, index) => (
+                                    {newBookCycle.booksInCycle.map((item, index) => (
                                         <Draggable key={item} draggableId={item} index={index}>
                                             {(provided) => (
                                             <li

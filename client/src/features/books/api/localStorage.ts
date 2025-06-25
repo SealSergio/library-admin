@@ -5,7 +5,8 @@ interface NewBook {
     description: string | null;
     genres: string[] | null;
     quantity: number;
-    isPartOfCycle: boolean,
+    age: string | null;
+    isPartOfCycle: boolean;
     cycle?: {
         cycleId: string,
         cycleName: string,

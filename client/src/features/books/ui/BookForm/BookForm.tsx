@@ -65,26 +65,34 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                 description: newBookDescription,
                 genres: newBookGenres,
                 quantity: newBookQuantity,
+                age: newBookAge,
                 isPartOfCycle: isPartOfCycle,
                 cycle: newBookCycle,
             })
         }
-    }, [newBookTitle, newBookGenres, newBookDescription, newBookQuantity, isPartOfCycle, newBookCycle]);
+    }, [newBookTitle, newBookGenres, newBookDescription, newBookQuantity, newBookAge, isPartOfCycle, newBookCycle]);
 
     function toggleCycleCheckbox() {
         if (!isPartOfCycle && newBookAuthor && newBookTitle && !newBookCycle) {
-            setIsPartOfCycle(true);
+            setIsPartOfCycle(!isPartOfCycle);
             setNewBookCycle({
                 cycleId: "",
                 cycleName: "",
                 authorId: newBookAuthor.id,
-                booksInCycle: [],
+                booksInCycle: [newBookTitle],
             });
-        } else {
+        } else if (isPartOfCycle) {
             setIsPartOfCycle(false);
             setNewBookCycle(null);
         }
     };
+
+    useEffect(() => {
+        if ((!Boolean(newBookTitle) || !Boolean(newBookAuthor)) && isPartOfCycle) {
+            setIsPartOfCycle(false);
+            setNewBookCycle(null);
+        }
+    }, [newBookAuthor, newBookTitle]);
 
     const {register, handleSubmit, formState: { errors }} = useForm({
         resolver: zodResolver(BookSchema),
@@ -120,6 +128,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                             className="form__input book-form__input"
                             type="text" placeholder="Заголовок"
                             {...register("title")}
+                            value={newBookTitle || ""}
                             onInput={(event) => setNewBookTitle(event.currentTarget.value)}
                         />
                         {errors.title && <p>Заголовок должен содержать не менее 1 символа</p>}
