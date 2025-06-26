@@ -7,9 +7,9 @@ const commentSchema = z.object({
 });
 
 export const BookSchema = z.object({
-    id: z.string(),
+    id: z.string().length(5),
     title: z.string().min(1),
-    authorId: z.string(),
+    authorId: z.string().length(3),
     description: z.string().min(20),
     quantity: z.number().positive(),
     comments: z.array(commentSchema).optional(),

@@ -1,23 +1,8 @@
-import { randomUUID } from "crypto";
 import { JSONFilePreset } from "lowdb/node";
+import { Book } from "../routes";
+import { writeFile } from 'fs/promises';
 
-export interface IBook {
-  id: string,
-  title: string,
-  author: string,
-  authorFirstname: string,
-  authorSecondname: string,
-  authorFamily: string,
-  description: string,
-  copies: number,
-  comments: Array<string>,
-  genres: Array<string>,
-  age: Array<string>,
-  language: string,
-  country: string,
-}
-
-const database = await JSONFilePreset<Record<string, IBook>>("books.json", {});
+const database = await JSONFilePreset<Record<string, Book>>("books.json", {});
 
 export interface IGetAllBooksOptions {
   page?: number;
@@ -31,7 +16,7 @@ export interface IGetAllBooksOptions {
 // }
 
 export interface IGetAllBooksResult {
-  list: IBook[];
+  list: Book[];
   pageCount: number;
 }
 
@@ -39,7 +24,7 @@ export class Books {
   static getAllForUser(
     userId: string,
     { page, pageSize, searchString }: IGetAllBooksOptions = {},
-  ): IBook[] {
+  ): Book[] {
     // let list = Object.values(database.data)
       // .filter(obj =>obj.userId === userId);
     // let pageCount = 1;
@@ -58,23 +43,19 @@ export class Books {
     return Object.values(database.data);
   }
 
-  // static async create(
-  //   title: string,
-  //   text: string,
-  //   userId: string,
-  // ): Promise<IBook> {
-  //   const Book: IBook = {
-  //     id: randomUUID(),
-  //     title,
-  //     text,
-  //     userId,
-  //     createdAt: Date.now(),
-  //   };
+  static async create(Book: Book): Promise<Book[]> {
+    // const newBook = {
+    //   ...Book,
+    //   createdAt: Date.now(),
+    // };
 
-  //   await database.update((data) => {
-  //     data[Book.id] = Book;
-  //   });
+    await database.update((data) => {
+      data[Book.id] = Book;
+    });
 
-  //   return Book;
-  // }
+    const jsonData = JSON.stringify(Object.values(database.data), null, 2); // Форматирование для читабельности
+    await writeFile("books.json", jsonData, 'utf-8');
+
+    return Object.values(database.data);
+  }
 }

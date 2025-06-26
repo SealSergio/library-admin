@@ -141,6 +141,29 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
 
     const onSubmit = (data: Book | unknown) => {
         console.log(data);
+        fetch('api/books', {
+
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+        })
+
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Сетевая ошибка: ' + response.statusText);
+            }
+            return response.json();
+        })
+
+        .then(data => {
+            console.log('Успех:', data);
+        })
+
+        .catch((error) => {
+            console.error('Ошибка:', error);
+        });
     };
 
     return (

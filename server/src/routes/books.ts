@@ -40,27 +40,48 @@ booksRouter.get("/", (req, res) => {
   res.status(200).json(Books.getAllForUser(userId, queryParseResult.data));
 });
 
-const CreateBookschema = z.object({
-  title: z.string().min(1),
-  text: z.string().min(10),
+const CycleSchema = z.object({
+  cycleId: z.string(),
+  cycleName: z.string(),
+  authorId: z.string(),
+  booksInCycle: z.array(z.string()),
 });
 
-// booksRouter.post("/", async (req, res) => {
-//   const userId = authorizeRequest(req);
+const commentSchema = z.object({
+  author: z.string(),
+  text: z.string(),
+});
 
-//   if (!userId) {
-//     return res.status(401).send("Unauthorized");
-//   }
+export const CreateBookschema = z.object({
+  id: z.string().length(5),
+  title: z.string().min(1),
+  authorId: z.string().length(3),
+  description: z.string().min(20),
+  quantity: z.number().positive(),
+  comments: z.array(commentSchema).optional(),
+  genres: z.array(z.string()),
+  age: z.string(),
+  // language: z.string(),
+  isPartOfCycle: z.boolean(),
+  cycle: CycleSchema.optional(),
+});
 
-//   const bodyParseResult = CreateBookschema.safeParse(req.body);
+export type Book = z.infer<typeof CreateBookschema>;
 
-//   if (!bodyParseResult.success) {
-//     return res.status(400).send(bodyParseResult.error.message);
-//   }
+booksRouter.post("/", async (req, res) => {
+  // const userId = authorizeRequest(req);
 
-//   const { text, title } = bodyParseResult.data;
+  // if (!userId) {
+  //   return res.status(401).send("Unauthorized");
+  // }
 
-//   const post = await Books.create(title, text, userId);
+  const bodyParseResult = CreateBookschema.safeParse(req.body);
 
-//   res.status(201).send(post.id);
-// });
+  if (!bodyParseResult.success) {
+    return res.status(400).send(bodyParseResult.error.message);
+  }
+
+  const allBooks = await Books.create(bodyParseResult.data);
+
+  res.status(201).send(allBooks);
+});
