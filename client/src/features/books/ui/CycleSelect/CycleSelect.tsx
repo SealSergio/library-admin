@@ -33,8 +33,8 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
     )));
     const [cycleName, setCycleName] = useState<string>(
         newBookCycle.cycleName !== "" ? newBookCycle.cycleName
-        : (filteredCycles.length === 1) ? filteredCycles[0].cycleName
-        : ""
+        : ((filteredCycles.length === 1) ? filteredCycles[0].cycleName
+        : "")
     );
     const [booksInCycle, setBooksInCycle] = useState<string[]>(newBookCycle.booksInCycle);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -49,6 +49,7 @@ export const CycleSelect: React.FC<CycleSelectProps> = ({
     useEffect(() => {
         setNewBookCycle({
             ...newBookCycle,
+            cycleId: cycles.find(cycle => cycle.cycleName === cycleName)?.cycleId || "",
             cycleName: cycleName,
         });
     }, [cycleName]);

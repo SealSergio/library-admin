@@ -15,7 +15,7 @@ export const BookSchema = z.object({
     comments: z.array(commentSchema).optional(),
     genres: z.array(z.string()),
     age: z.string(),
-    language: z.string(),
+    // language: z.string(),
     isPartOfCycle: z.boolean(),
     cycle: CycleSchema.optional(),
 });

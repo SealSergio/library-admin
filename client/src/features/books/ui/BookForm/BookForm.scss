@@ -115,6 +115,7 @@
 .book-form__label--checkbox {
     flex-direction: row;
     gap: 15px;
+    width: fit-content;
 
     & input {
         cursor: pointer;

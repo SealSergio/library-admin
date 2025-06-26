@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import TextareaAutosize from "react-textarea-autosize";
@@ -68,16 +68,22 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                 age: newBookAge,
                 isPartOfCycle: isPartOfCycle,
                 cycle: newBookCycle,
-            })
+            });
         }
     }, [newBookTitle, newBookGenres, newBookDescription, newBookQuantity, newBookAge, isPartOfCycle, newBookCycle]);
 
     function toggleCycleCheckbox() {
+        function getSingleCycle() {
+            const filteredCycles = cycles.filter(cycle => (cycle.authorId === newBookAuthor?.id));
+            return (filteredCycles.length === 1) ? filteredCycles[0] : null;
+        };
+
         if (!isPartOfCycle && newBookAuthor && newBookTitle && !newBookCycle) {
-            setIsPartOfCycle(!isPartOfCycle);
+            setIsPartOfCycle(true);
+            const singleCycle = getSingleCycle();
             setNewBookCycle({
-                cycleId: "",
-                cycleName: "",
+                cycleId: singleCycle?.cycleId || "",
+                cycleName: singleCycle?.cycleName || "",
                 authorId: newBookAuthor.id,
                 booksInCycle: [newBookTitle],
             });
@@ -94,9 +100,44 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
         }
     }, [newBookAuthor, newBookTitle]);
 
-    const {register, handleSubmit, formState: { errors }} = useForm({
+    const {register, handleSubmit, setValue, formState: { errors }} = useForm({
         resolver: zodResolver(BookSchema),
     });
+
+    useEffect(() => {
+        (newBookGenres.length > 0) && setValue("genres", newBookGenres);
+    }, [newBookGenres, setValue]);
+
+    useEffect(() => {
+        newBookAge && setValue("age", newBookAge);
+    }, [newBookAge, setValue]);
+
+    useEffect(() => {
+        if (newBookAuthor) {
+            const lastBook = books.filter(book => book.authorId === newBookAuthor.id).at(-1);
+            let newLastBookId = lastBook ? 
+                String(Number(lastBook.id.slice(3, 5)) + 1) :
+                "01";
+
+            if (newLastBookId.length === 1) {
+                newLastBookId = "0" + newLastBookId;
+            };
+
+            setNewBookId(newBookAuthor.id + newLastBookId);
+
+            newBookId && setValue("id", newBookId);
+
+            setValue("authorId", newBookAuthor.id);
+        }
+    }, [newBookAuthor, setValue]);
+
+    useEffect(() => {
+        setValue("isPartOfCycle", isPartOfCycle);
+    }, [isPartOfCycle, setValue]);
+
+    useEffect(() => {
+        setValue("cycle", newBookCycle || undefined);
+    }, [newBookCycle, setValue]);
 
     const onSubmit = (data: Book | unknown) => {
         console.log(data);
@@ -138,6 +179,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                         <button
                             className={`form__input book-form__input book-form__input--age ${newBookAuthor === null && "defaultValue"}`}
                             onClick={toggleAuthor}
+                            {...register("authorId")}
                             type="button">
                             {newBookAuthor ? newBookAuthor.name : "Автор"}
                         </button>
@@ -230,6 +272,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                             className="form__input book-form__input"
                             type="number"
                             min="0"
+                            max="1000"
                             placeholder="Экземпляры"
                             {...register("quantity", { valueAsNumber: true })}
                             value={newBookQuantity === 0 ? "" : newBookQuantity}
@@ -237,7 +280,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                         />
                         {errors.quantity && <p>Должно быть не менее одного экземпляра</p>}
                     </label>
-                    <button className="form__btn form__btn--submit" type="submit">
+                    <button className="form__btn form__btn--submit" type="submit" onClick={() => console.log(errors)}>
                         Сохранить
                     </button>
                     <button className="form__btn form__btn--reset" type="button">
