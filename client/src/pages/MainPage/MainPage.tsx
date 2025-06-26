@@ -7,6 +7,7 @@ import { AuthorsMain } from "../../features/authors/ui/AuthorsMain/AuthorsMain";
 import { BooksMain } from "../../features/books/ui/BooksMain/BooksMain";
 import { Support } from "../../features/support/ui/Support";
 import "./MainPage.scss";
+import { CyclesMain } from "../../features/cycles/ui/CyclesMain/CyclesMain";
 
 export const MainPage: React.FC = () => {
     return (
@@ -19,6 +20,7 @@ export const MainPage: React.FC = () => {
                         <Routes>
                             <Route path="/books" element={<BooksMain />}/>
                             <Route path="/authors" element={<AuthorsMain />}/>
+                            <Route path="/cycles" element={<CyclesMain />}/>
                             <Route path="/support" element={<Support />}/>
                             <Route index element={<Navigate to="/books" replace />} />
                         </Routes>

@@ -25,6 +25,13 @@ export const Aside: FC = () => {
                         </Link>
                     </li>
                     <li className="aside-menu__item">
+                        <Link to={"/cycles"}>
+                            <button className="aside-menu__btn">
+                                Циклы
+                            </button>
+                        </Link>
+                    </li>
+                    <li className="aside-menu__item">
                         <Link to={"/support"}>
                             <button className="aside-menu__btn aside-menu__btn--support">
                                 Справка
