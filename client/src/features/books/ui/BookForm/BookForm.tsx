@@ -115,15 +115,11 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
     useEffect(() => {
         if (newBookAuthor) {
             const lastBook = books.filter(book => book.authorId === newBookAuthor.id).at(-1);
-            let newLastBookId = lastBook ? 
-                String(Number(lastBook.id.slice(3, 5)) + 1) :
-                "01";
+            const generatedNewBookId = lastBook ? 
+                String(Number(lastBook.id) + 1).padStart(5, "0") :
+                newBookAuthor.id + "01";
 
-            if (newLastBookId.length === 1) {
-                newLastBookId = "0" + newLastBookId;
-            };
-
-            setNewBookId(newBookAuthor.id + newLastBookId);
+            setNewBookId(generatedNewBookId);
 
             newBookId && setValue("id", newBookId);
 
@@ -140,14 +136,12 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
     }, [newBookCycle, setValue]);
 
     const onSubmit = (data: Book | unknown) => {
-        console.log(data);
         fetch('api/books', {
-
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         })
 
         .then(response => {
