@@ -1,9 +1,8 @@
 import { AuthorList } from "../../../authors/model/Author";
-import { GenreList } from "../../model/Genre";
 import "./Filters.scss";
 
 interface FilterProps {
-    genres: GenreList,
+    genres: string[],
     authors: AuthorList,
 }
 
