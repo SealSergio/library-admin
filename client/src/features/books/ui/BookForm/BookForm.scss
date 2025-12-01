@@ -45,10 +45,16 @@
     padding: 2px 4px;
     border-radius: var(--small-radius);
     background-color: var(--lightest-grey);
+    max-height: 700px;
 }
+
 .textarea-descr {
     box-sizing: border-box;
     width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 30px;
+    max-height: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--dark-grey) var(--lightest-grey);
@@ -107,6 +113,21 @@
     text-align: left;
 
     &.defaultValue {
-    color: var(--middle-grey);
+        color: var(--middle-grey);
+    }
 }
+
+.book-form__label--checkbox {
+    flex-direction: row;
+    gap: 15px;
+    width: fit-content;
+
+    & input {
+        cursor: pointer;
+    }
+}
+
+.checkbox-message {
+    display: block;
+    color: var(--red);
 }

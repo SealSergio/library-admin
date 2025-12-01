@@ -38,6 +38,10 @@
     }
 }
 
+.input--cycle.disabled {
+    cursor: no-drop
+}
+
 .closeBtn {
     display: block;
     width: 16px;

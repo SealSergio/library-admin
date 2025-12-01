@@ -1,14 +1,17 @@
 interface NewBook {
     id: string | null;
     title: string | null;
-    // authorId: string | null;
+    authorId: string | null;
     description: string | null;
     genres: string[] | null;
     quantity: number;
-    cycle: {
-        isPartOfCycle: boolean,
-        cycleName?: string,
-        newCycleData?: string[],
+    age: string | null;
+    isPartOfCycle: boolean;
+    cycle?: {
+        cycleId: string,
+        cycleName: string,
+        authorId: string,
+        booksInCycle: string[],
     } | null
 }
 

@@ -2,43 +2,39 @@ import { ErrorMessage } from "../../../../shared/components/Error/Error";
 import { Loader } from "../../../../shared/components/Loader/Loader";
 import { useGetAllAuthorsQuery } from "../../../authors/api/authors";
 import { useGetAllBooksQuery } from "../../api/books";
+import { useGetAllCyclesQuery } from "../../api/cycles";
 import { useGetAllGenresQuery } from "../../api/genres";
 import { BookForm } from "../BookForm/BookForm";
 import { BookListView } from "../BooksListView/BookListView";
 import { Filters } from "../Filters/Filters";
 
 export const BooksMain: React.FC = () => {
-    const books = (() => {
-        const { data, isError, isLoading } = useGetAllBooksQuery();
-        return { data, isError, isLoading };
-    })();
+    const { data: booksData, isError: booksIsError, isLoading: booksIsLoading } = useGetAllBooksQuery();
+    const { data: authorsData, isError: authorsIsError, isLoading: authorsIsLoading } = useGetAllAuthorsQuery();
+    const { data: genresData, isError: genresIsError, isLoading: genresIsLoading } = useGetAllGenresQuery();
+    const { data: cyclesData, isError: cyclesIsError, isLoading: cyclesIsLoading } = useGetAllCyclesQuery();
 
-    const authors = (() => {
-        const { data, isError, isLoading } = useGetAllAuthorsQuery();
-        return { data, isError, isLoading };
-    })();
-
-    const genres = (() => {
-        const { data, isError, isLoading } = useGetAllGenresQuery();
-        return { data, isError, isLoading };
-    })();
-
-    if (books.isLoading || authors.isLoading || genres.isLoading) {
+    if (booksIsLoading || authorsIsLoading || genresIsLoading || cyclesIsLoading) {
         return (<Loader />);
     }
 
-    if (books.isError || authors.isError || genres.isError) {
+    if (booksIsError || authorsIsError || genresIsError || cyclesIsError) {
         return (<ErrorMessage />);
     }
 
-    if (books.data && authors.data && genres.data) {
+    if (booksData && authorsData && genresData && cyclesData) {
         return (
             <>
-                <BookForm genres={genres.data} authors={authors.data}/>
+                <BookForm
+                    books={booksData}
+                    genres={genresData}
+                    authors={authorsData}
+                    cycles={cyclesData}
+                />
                 <div className="section-books">
-                    <Filters genres={genres.data} authors={authors.data}/>
-                    {books.data.length > 0 ? (
-                        <BookListView bookList={books.data}/>
+                    <Filters genres={genresData} authors={authorsData}/>
+                    {booksData.length > 0 ? (
+                        <BookListView bookList={booksData}/>
                     ) : (
                         <div>Нет книг</div>
                     )}

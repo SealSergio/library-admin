@@ -1,4 +1,5 @@
-import { nullable, z } from "zod";
+import { z } from "zod";
+import { CycleSchema } from "./Cycle";
 
 const commentSchema = z.object({
     author: z.string(),
@@ -6,15 +7,17 @@ const commentSchema = z.object({
 });
 
 export const BookSchema = z.object({
-    id: z.string(),
+    id: z.string().length(5),
     title: z.string().min(1),
-    authorId: z.string(),
+    authorId: z.string().length(3),
     description: z.string().min(20),
     quantity: z.number().positive(),
     comments: z.array(commentSchema).optional(),
     genres: z.array(z.string()),
     age: z.string(),
-    language: z.string(),
+    // language: z.string(),
+    isPartOfCycle: z.boolean(),
+    cycle: CycleSchema.optional(),
 });
 
 export type Book = z.infer<typeof BookSchema>;
