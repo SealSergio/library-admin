@@ -18,7 +18,7 @@ export const BookCard: FC<BookCardProps> = ({book}) => {
             </div>
             <div className="book-details">
                 <h3 className="book-title">{book.title}</h3>
-                <p className="book-author">{book.author}</p>
+                {/* <p className="book-author">{book.authorId}</p> */}
                 <button onClick={handleClickOnBtnMore} className="details-btn">Подробнее</button>
             </div>        
         </>
