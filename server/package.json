@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && node copy-static.mjs && tsc-alias && cp package.json package-lock.json build/",
+    "build": "tsc && node copy-static.mjs && tsc-alias && cp package.json package-lock.json build/ && node replace-paths.mjs",
     "dev": "tsx watch src/server.ts"
   },
   "devDependencies": {
@@ -12,6 +12,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
+    "glob": "^13.0.0",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.7.0",
     "typescript": "^5.0.2"
