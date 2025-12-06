@@ -1,7 +1,7 @@
-export * from "./authors";
+export * from "./authors.js";
 
-export * from "./books";
+export * from "./books.js";
 
-export * from "./genres";
+export * from "./genres.js";
 
-export * from "./cycles";
+export * from "./cycles.js";

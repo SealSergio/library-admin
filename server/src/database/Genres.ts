@@ -1,6 +1,6 @@
 import { JSONFilePreset } from "lowdb/node";
 
-const database = await JSONFilePreset<string[]>("genres.json", []);
+const database = await JSONFilePreset<string[]>("./src/data/genres.json", []);
 
 export class Genres {
   static getAllForUser(): string[] {

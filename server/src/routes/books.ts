@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
 
-import { authorizeRequest } from "../auth.js";
 import { IGetAllBooksOptions, Books } from "../database/index.js";
 
 export const booksRouter = Router();
@@ -25,19 +24,13 @@ const GetBooksSchema = z
   );
 
 booksRouter.get("/", (req, res) => {
-  const userId = authorizeRequest(req);
-  // const userId = true;
   const queryParseResult = GetBooksSchema.safeParse(req.query);
-
-  // if (!userId) {
-  //   return res.status(401).send("Unauthorized");
-  // }
 
   if (!queryParseResult.success) {
     return res.status(400).send(queryParseResult.error.message);
   }
 
-  res.status(200).json(Books.getAllForUser(userId, queryParseResult.data));
+  res.status(200).json(Books.getAllForUser(queryParseResult.data));
 });
 
 const CycleSchema = z.object({
@@ -69,12 +62,6 @@ export const CreateBookschema = z.object({
 export type Book = z.infer<typeof CreateBookschema>;
 
 booksRouter.post("/", async (req, res) => {
-  // const userId = authorizeRequest(req);
-
-  // if (!userId) {
-  //   return res.status(401).send("Unauthorized");
-  // }
-
   const bodyParseResult = CreateBookschema.safeParse(req.body);
 
   if (!bodyParseResult.success) {

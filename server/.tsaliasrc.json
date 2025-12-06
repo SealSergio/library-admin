@@ -1,0 +1,7 @@
+{
+  "outDir": "build",
+  "resolveExtensions": [".js"],
+  "verbose": true,
+  "include": ["build/**/*.js"],
+  "exclude": ["node_modules/**", "build/**/*.d.ts"]
+}
