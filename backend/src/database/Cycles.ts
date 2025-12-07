@@ -6,7 +6,7 @@ export interface ICycle {
   booksInCycle: string[];
 }
 
-const database = await JSONFilePreset<Record<string, ICycle>>("cycles.json", {});
+const database = await JSONFilePreset<Record<string, ICycle>>("./src/data/cycles.json", {});
 
 export class Cycles {
   static getAllForUser(): ICycle[] {

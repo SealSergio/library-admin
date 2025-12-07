@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Build backend
+        run: |
+          cd backend
+          npm ci
+          npm run build
+
+deploy:
+  needs: build-and-test
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd /home/sergio/library
+
+          rm -rf frontend/*
+          cp -r $GITHUB_WORKSPACE/frontend/build/* frontend/
+
+          cd backend
+          git pull origin main
+          npm install
+          pm2 list | grep library-backend && pm2 restart library-backend || pm2 start server.js --name library-backend
+
+          sudo systemctl restart nginx

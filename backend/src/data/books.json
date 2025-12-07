@@ -71,31 +71,5 @@
         "Тестовая книга"
       ]
     }
-  },
-  {
-    "id": "00104",
-    "title": "nkjkfhg",
-    "authorId": "001",
-    "description": "hgjhhhhhhhhhhgfh gffghf kugg",
-    "quantity": 5,
-    "genres": [
-      "Классика",
-      "Романы"
-    ],
-    "age": "Любой",
-    "isPartOfCycle": false
-  },
-  {
-    "id": "00105",
-    "title": "nkjkfhg jhgj kkj",
-    "authorId": "002",
-    "description": "hgjhhhhhhhhhhgfh gffghf kugg",
-    "quantity": 3,
-    "genres": [
-      "Классика",
-      "Романы"
-    ],
-    "age": "Любой",
-    "isPartOfCycle": false
   }
 ]
