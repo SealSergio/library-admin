@@ -60,20 +60,29 @@ jobs:
 
       - name: Deploy to server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }}" \
+          echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+          chmod 600 /tmp/ssh-key
+
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
             ./frontend/dist/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
 
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }}" \
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
             ./backend/build/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
 
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+          rm /tmp/ssh-key
 
-            "cd /home/sergio/library/backend && \
-            npm install && \
+      - name: Setup SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/sergio/library/backend
+            npm install
 
-            pm2 list | grep library-backend && pm2 restart library-backend || pm2 start server.js --name library-backend && \
-
-            sudo systemctl restart nginx"
+            pm2 list | grep library-backend && \
+              pm2 restart library-backend || \
+              pm2 start server.js --name library-backend
