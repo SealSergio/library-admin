@@ -51,7 +51,7 @@
   },
   {
     "id": "00103",
-    "title": "Тестовая книга после CI/CD",
+    "title": "CI/CD 2.0",
     "authorId": "001",
     "description": "Настройка CI/CD",
     "quantity": 3,
