@@ -38,21 +38,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
+      - name: Setup SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/sergio/library
+            rsync -av --delete \
+              ${{ github.workspace }}/frontend/dist/ \
+              /home/sergio/library/frontend/
 
-            rm -rf frontend/*
-            cp -r $GITHUB_WORKSPACE/frontend/build/* frontend/
+            rsync -av --delete \
+              ${{ github.workspace }}/backend/build/ \
+              /home/sergio/library/backend/
 
-            cd backend
-            git pull origin main
+            cd /home/sergio/library/backend
             npm install
-            pm2 list | grep library-backend && pm2 restart library-backend || pm2 start server.js --name library-backend
+
+            pm2 list | grep library-backend && \
+              pm2 restart library-backend || \
+              pm2 start server.js --name library-backend
 
             sudo systemctl restart nginx
