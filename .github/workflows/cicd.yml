@@ -49,30 +49,31 @@ jobs:
           name: build-artifacts
           path: .
 
-      - name: Setup SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo "Текущая директория на CI-сервере: $(pwd)"
-            echo "Содержимое текущей директории:"
-            ls -la
+      - name: Verify artifacts
+        run: |
+          echo "Files on CI agent:"
+          ls -la ./frontend/dist/
+          ls -la ./backend/build/
+          ls -la ./dist/
+          ls -la ./build/
+          ls -la ./
 
-            rsync -av --delete \
-              ${{ github.workspace }}/dist/ \
-              /home/sergio/library/frontend/
+      - name: Deploy to server
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }}" \
+            ./dist/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
 
-            rsync -av --delete \
-              ${{ github.workspace }}/build/ \
-              /home/sergio/library/backend/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }}" \
+            ./build/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
 
-            cd /home/sergio/library/backend
-            npm install
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
 
-            pm2 list | grep library-backend && \
-              pm2 restart library-backend || \
-              pm2 start server.js --name library-backend
+            "cd /home/sergio/library/backend && \
+            npm install && \
 
-            sudo systemctl restart nginx
+            pm2 list | grep library-backend && pm2 restart library-backend || pm2 start server.js --name library-backend && \
+            
+            sudo systemctl restart nginx"
