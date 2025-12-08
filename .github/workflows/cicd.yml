@@ -52,20 +52,20 @@ jobs:
       - name: Verify artifacts
         run: |
           echo "Files on CI agent:"
-          ls -la ./frontend/dist/
-          ls -la ./backend/build/
-          ls -la ./dist/
-          ls -la ./build/
           ls -la ./
+          echo "Frontend files on CI agent:"
+          ls -la ./frontend/dist/
+          echo "Backend files on CI agent:"
+          ls -la ./backend/build/
 
       - name: Deploy to server
         run: |
           rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }}" \
-            ./dist/ \
+            ./frontend/dist/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
 
           rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }}" \
-            ./build/ \
+            ./backend/build/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
 
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} \
@@ -75,5 +75,5 @@ jobs:
             npm install && \
 
             pm2 list | grep library-backend && pm2 restart library-backend || pm2 start server.js --name library-backend && \
-            
+
             sudo systemctl restart nginx"
