@@ -31,12 +31,14 @@ jobs:
           npm ci
           npm run build
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload builds
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
-            frontend/dist/
-            backend/build/
+            frontend/
+            backend/
+      - 
 
   deploy:
     needs: build-and-test
@@ -60,11 +62,11 @@ jobs:
             ls -la
 
             rsync -av --delete \
-              ${{ github.workspace }}/frontend/dist/ \
+              ${{ github.workspace }}/dist/ \
               /home/sergio/library/frontend/
 
             rsync -av --delete \
-              ${{ github.workspace }}/backend/build/ \
+              ${{ github.workspace }}/build/ \
               /home/sergio/library/backend/
 
             cd /home/sergio/library/backend
