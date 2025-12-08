@@ -55,12 +55,16 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            echo "Текущая директория на CI-сервере: $(pwd)"
+            echo "Содержимое текущей директории:"
+            ls -la
+
             rsync -av --delete \
-              ./frontend/dist/ \
+              ${{ github.workspace }}/frontend/dist/ \
               /home/sergio/library/frontend/
 
             rsync -av --delete \
-              ./backend/build/ \
+              ${{ github.workspace }}/backend/build/ \
               /home/sergio/library/backend/
 
             cd /home/sergio/library/backend
