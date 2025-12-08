@@ -48,9 +48,6 @@ jobs:
           name: build-artifacts
           path: .
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Setup SSH
         uses: appleboy/ssh-action@master
         with:
@@ -59,11 +56,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             rsync -av --delete \
-              ${{ github.workspace }}/frontend/dist/ \
+              ./frontend/dist/ \
               /home/sergio/library/frontend/
 
             rsync -av --delete \
-              ${{ github.workspace }}/backend/build/ \
+              ./backend/build/ \
               /home/sergio/library/backend/
 
             cd /home/sergio/library/backend
