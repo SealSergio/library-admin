@@ -63,11 +63,11 @@ jobs:
           echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
           chmod 600 /tmp/ssh-key
 
-          sudo rsync -avz -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
+          sudo rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
             ./frontend/dist/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
 
-          sudo rsync -avz -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
+          sudo rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
             ./backend/build/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
 
@@ -83,6 +83,4 @@ jobs:
             cd /home/sergio/library/backend
             npm install
 
-            pm2 list | grep library-backend && \
-              pm2 restart library-backend || \
-              pm2 start server.js --name library-backend
+            pm2 restart library-backend
