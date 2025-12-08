@@ -38,7 +38,6 @@ jobs:
           path: |
             frontend/
             backend/
-      - 
 
   deploy:
     needs: build-and-test
