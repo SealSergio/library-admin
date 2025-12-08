@@ -12,7 +12,7 @@ export const Header: FC = () => {
         <header className="header">
             <div className="container container--header">
                 <h1 className="header__title">
-                    <a href="#" target="_blank">Книжный дом | CI/CD forever</a>            
+                    <a href="#" target="_blank">Книжный дом</a>            
                 </h1>
                 <div className="header__btns-right">
                     <button className="header__btn header__btn--user btn-reset">Профиль</button>
