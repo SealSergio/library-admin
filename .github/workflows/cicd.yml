@@ -63,11 +63,11 @@ jobs:
           echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
           chmod 600 /tmp/ssh-key
 
-          sudo rsync -avz -O -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
+          sudo rsync -avz -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
             ./frontend/dist/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
 
-          sudo rsync -avz -O -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
+          sudo rsync -avz -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
             ./backend/build/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
 
