@@ -31,10 +31,23 @@ jobs:
           npm ci
           npm run build
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            frontend/dist/
+            backend/build/
+
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
+      - name: Download builds
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: .
+
       - name: Checkout code
         uses: actions/checkout@v4
 
