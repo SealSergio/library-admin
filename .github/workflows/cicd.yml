@@ -80,10 +80,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            which bash || which sh
 
             # cd /home/sergio/library/backend
             # npm install
             # npm prune --production
 
-            "/bin/sh --login -c 'pm2 --update-env restart library-backend'"
+            "/usr/bin/bash --login -c 'pm2 --update-env restart library-backend'"
