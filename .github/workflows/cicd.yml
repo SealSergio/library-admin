@@ -83,5 +83,5 @@ jobs:
             cd /home/sergio/library/backend
             npm install
             npm prune --production
-
-            pm2 restart library-backend
+            
+            "/bin/bash --login -c 'pm2 --update-env restart library-backend'"
