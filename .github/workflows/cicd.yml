@@ -8,70 +8,70 @@ on:
     types: [closed]
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # build-and-test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20'
 
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm ci
-          npm run build
+  #     - name: Build frontend
+  #       run: |
+  #         cd frontend
+  #         npm ci
+  #         npm run build
 
-      - name: Build backend
-        run: |
-          cd backend
-          npm ci
-          npm run build
+  #     - name: Build backend
+  #       run: |
+  #         cd backend
+  #         npm ci
+  #         npm run build
 
-      - name: Upload builds
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            frontend/
-            backend/
+  #     - name: Upload builds
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-artifacts
+  #         path: |
+  #           frontend/
+  #           backend/
 
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - name: Download builds
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: .
+      # - name: Download builds
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build-artifacts
+      #     path: .
 
-      - name: Verify artifacts
-        run: |
-          echo "Files on CI agent:"
-          ls -la ./
-          echo "Frontend files on CI agent:"
-          ls -la ./frontend/dist/
-          echo "Backend files on CI agent:"
-          ls -la ./backend/build/
+      # - name: Verify artifacts
+      #   run: |
+      #     echo "Files on CI agent:"
+      #     ls -la ./
+      #     echo "Frontend files on CI agent:"
+      #     ls -la ./frontend/dist/
+      #     echo "Backend files on CI agent:"
+      #     ls -la ./backend/build/
 
-      - name: Deploy to server
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
-          chmod 600 /tmp/ssh-key
+      # - name: Deploy to server
+      #   run: |
+      #     echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+      #     chmod 600 /tmp/ssh-key
 
-          sudo rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
-            ./frontend/dist/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
+      #     sudo rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
+      #       ./frontend/dist/ \
+      #       ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/frontend/
 
-          sudo rsync -avz --delete --exclude='node_modules/' -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
-            ./backend/build/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
+      #     sudo rsync -avz --delete --exclude='node_modules/' -e "ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key" \
+      #       ./backend/build/ \
+      #       ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/sergio/library/backend/
 
-          rm /tmp/ssh-key
+      #     rm /tmp/ssh-key
 
       - name: Setup SSH
         uses: appleboy/ssh-action@master
@@ -80,8 +80,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/sergio/library/backend
-            npm install
-            npm prune --production
-            
-            "/bin/bash --login -c 'pm2 --update-env restart library-backend'"
+            which bash || which sh
+
+            # cd /home/sergio/library/backend
+            # npm install
+            # npm prune --production
+
+            "/bin/sh --login -c 'pm2 --update-env restart library-backend'"
