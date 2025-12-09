@@ -86,7 +86,7 @@ jobs:
             # npm prune --production
 
             /usr/bin/bash -c 'export PM2_HOME=/home/deployer/.pm2; \
-            export PATH=\$PATH:/usr/bin/pm2; \
+            export PATH=\$PATH:/usr/bin/; \
             /usr/bin/pm2 --update-env restart library-backend'
 
             # "/usr/bin/bash --login -c 'pm2 --update-env restart library-backend'"
