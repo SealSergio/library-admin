@@ -89,6 +89,6 @@ jobs:
             # export PATH=\$PATH:/usr/bin/; \
             # /usr/bin/pm2 --update-env restart library-backend'
 
-            "/usr/bin/bash --login -c 'pm2 --update-env list'"
+            bash --login -c 'pm2 --update-env list'
 
             # "/usr/bin/bash --login -c 'pm2 --update-env restart library-backend'"
