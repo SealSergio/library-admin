@@ -85,4 +85,8 @@ jobs:
             # npm install
             # npm prune --production
 
+            ls -a
+
+            cd /usr/bin/bash && ls -a
+
             "/usr/bin/bash --login -c 'pm2 --update-env restart library-backend'"
