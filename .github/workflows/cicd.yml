@@ -9,6 +9,15 @@ on:
 
 jobs:
   build-and-test:
+    if: >
+      !contains(github.event.head_commit.message, '[no-deploy]') &&
+      !(
+        github.event_name == 'pull_request' &&
+        (
+          contains(github.event.pull_request.merge_commit_message, '[no-deploy]') ||
+          contains(github.event.pull_request.title, '[no-deploy]')
+        )
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -40,6 +49,16 @@ jobs:
             backend/
 
   deploy:
+    if: >
+      github.ref == 'refs/heads/main' &&
+      !contains(github.event.head_commit.message, '[no-deploy]') &&
+      !(
+        github.event_name == 'pull_request' &&
+        (
+          contains(github.event.pull_request.merge_commit_message, '[no-deploy]') ||
+          contains(github.event.pull_request.title, '[no-deploy]')
+        )
+      )
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
