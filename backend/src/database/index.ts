@@ -5,3 +5,8 @@ export * from "./Authors.js";
 export * from "./Genres.js";
 
 export * from "./Cycles.js";
+
+export * from "./Users.js";
+
+export * from "./Passwords.js";
+
