@@ -6,8 +6,8 @@ import { Header } from "../../components/Header/Header";
 import { AuthorsMain } from "../../features/authors/ui/AuthorsMain/AuthorsMain";
 import { BooksMain } from "../../features/books/ui/BooksMain/BooksMain";
 import { Support } from "../../features/support/ui/Support";
-import "./MainPage.scss";
 import { CyclesMain } from "../../features/cycles/ui/CyclesMain/CyclesMain";
+import "./MainPage.scss";
 
 export const MainPage: React.FC = () => {
     return (
