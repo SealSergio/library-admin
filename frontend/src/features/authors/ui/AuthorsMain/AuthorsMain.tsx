@@ -2,6 +2,7 @@ import { ErrorMessage } from "../../../../shared/components/Error/Error";
 import { Loader } from "../../../../shared/components/Loader/Loader";
 import { useGetAllAuthorsQuery } from "../../api/authors";
 import { AuthorListView } from "../AuthorListView/AuthorListView"
+import { AuthorForm } from "../AuthorForm/AuthorFrom";
 
 
 export const AuthorsMain: React.FC = () => {
@@ -12,7 +13,7 @@ export const AuthorsMain: React.FC = () => {
 
     return (
         <>
-            {/* <AuthorForm/> */}
+            <AuthorForm authors={authors}/>
             {authors ? (
                 <AuthorListView authors={authors}/>
             ) : (
