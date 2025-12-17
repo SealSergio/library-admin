@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthorList } from "../../../authors/model/Author";
+import { AuthorList } from "../../model/Author";
 import { Author, AuthorSchema } from "../../model/Author";
 import "./AuthorForm.scss";
 import { getNewAuthor, setNewAuthor } from '../../api/localStorage';
@@ -22,6 +22,8 @@ export const AuthorForm: React.FC<AuthorFormProps> = ({ authors }) => {
     
     const [showIdMessage, setShowIdMessage] = useState(false);
     const [showFullnameMessage, setShowFullnameMessage] = useState(false);
+
+    const [isDuplication, setIsDuplication] = useState(false);
 
     const isInitialMount = useRef(true);
 
@@ -50,8 +52,8 @@ export const AuthorForm: React.FC<AuthorFormProps> = ({ authors }) => {
     });
 
     useEffect(() => {
-        // checkForDublication(newAuthorFullname);
-    }, [newAuthorFullname, setValue]);
+        checkForDuplication();
+    }, [newAuthorFullname]);
 
     function generateFullname() {
         if (newAuthorSurname && newAuthorName) {
@@ -76,6 +78,17 @@ export const AuthorForm: React.FC<AuthorFormProps> = ({ authors }) => {
             setNewAuthorAbbreviatedName(null);
         }
     };
+
+    function checkForDuplication() {
+        if (authors !== undefined) {
+            const isDuplication = authors.some(author => author.fullname === newAuthorFullname);
+            if (isDuplication) {
+                setIsDuplication(true);
+            } else {
+                setIsDuplication(false);
+            }
+        }
+    }
 
     const onSubmit = (data: Author | unknown) => {
         fetch('api/authors', {
@@ -168,6 +181,9 @@ export const AuthorForm: React.FC<AuthorFormProps> = ({ authors }) => {
                             onMouseEnter={() => setShowFullnameMessage(true)}
                             onMouseLeave={() => setShowFullnameMessage(false)}
                         />
+                        {isDuplication &&
+                            <span className='form__label__error'>Такой автор уже существует</span> 
+                        }
                     </label>
                     <label className="form__label author-form__label">
                         <span className="form__label__title">Сокращенное имя</span>

@@ -2,7 +2,7 @@ import { ErrorMessage } from "../../../../shared/components/Error/Error";
 import { Loader } from "../../../../shared/components/Loader/Loader";
 import { useGetAllAuthorsQuery } from "../../api/authors";
 import { AuthorListView } from "../AuthorListView/AuthorListView"
-import { AuthorForm } from "../AuthorForm/AuthorFrom";
+import { AuthorForm } from "../AuthorForm/AuthorForm";
 
 
 export const AuthorsMain: React.FC = () => {
