@@ -2,7 +2,11 @@ import { z } from "zod";
 
 export const AuthorSchema = z.object({
     id: z.string(),
+    surname: z.string(),
     name: z.string(),
+    secondName: z.string().optional(),
+    fullname: z.string(),
+    abbreviatedName: z.string(),
     country: z.string(),
 });
 
