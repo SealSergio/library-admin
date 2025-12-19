@@ -88,7 +88,7 @@ export const AuthorForm: React.FC<AuthorFormProps> = ({ authors }) => {
                 setIsDuplication(false);
             }
         }
-    }
+    };
 
     const onSubmit = (data: Author | unknown) => {
         fetch('api/authors', {
