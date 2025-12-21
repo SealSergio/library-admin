@@ -3,6 +3,7 @@ import { fetchMe } from "../../app/User";
 import { queryClient } from "../../app/queryClient";
 import { Login } from "../../pages/Login/Login";
 import { MainPage } from "../../pages/MainPage/MainPage";
+import { Loader } from "../../shared/components/Loader/Loader";
 
 export const Account = () => {
     const meQuery = useQuery(
@@ -15,8 +16,8 @@ export const Account = () => {
     );
 
     switch (meQuery.status) {
-        // case "pending":
-        //     return <Loader />;
+        case "pending":
+            return <Loader />;
 
         case "error":
             return <Login />;

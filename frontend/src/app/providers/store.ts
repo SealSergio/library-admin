@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { booksApi } from "../../features/books/api/books";
 import { authorsApi } from "../../features/authors/api/authors.js";
-import { genresApi } from "../../features/books/api/genres.js";
-import { cyclesApi } from "../../features/books/api/cycles";
+import { genresApi } from "../../features/genres/api/genres.js";
+import { cyclesApi } from "../../features/cycles/api/cycles";
 
 export const store = configureStore({
     reducer: {

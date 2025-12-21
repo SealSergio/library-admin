@@ -10,7 +10,7 @@ import { Book, BookSchema } from "../../model/Book";
 import { GenresSelect } from '../GenresSelect/GenresSelect';
 import "./BookForm.scss";
 import { getNewBook, setNewBook } from '../../api/localStorage';
-import { Cycle, CycleList } from '../../model/Cycle';
+import { Cycle, CycleList } from '../../../cycles/model/Cycle';
 import { CycleSelect } from '../CycleSelect/CycleSelect';
 
 interface BookFormProps {
