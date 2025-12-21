@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { CycleSchema } from "./Cycle";
+import { CycleSchema } from "../../cycles/model/Cycle";
+import { GenreList } from "../../genres/model/Genre";
 
 const commentSchema = z.object({
     author: z.string(),
@@ -13,7 +14,7 @@ export const BookSchema = z.object({
     description: z.string().min(20),
     quantity: z.number().positive(),
     comments: z.array(commentSchema).optional(),
-    genres: z.array(z.string()),
+    genres: GenreList,
     age: z.string(),
     // language: z.string(),
     isPartOfCycle: z.boolean(),

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { validateResponse } from './validateResponse';
-import { queryClient } from './queryClient';
 
 export const UserSchema = z.object({
     id: z.string(),

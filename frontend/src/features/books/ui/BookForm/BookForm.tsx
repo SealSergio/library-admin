@@ -10,7 +10,7 @@ import { Book, BookSchema } from "../../model/Book";
 import { GenresSelect } from '../GenresSelect/GenresSelect';
 import "./BookForm.scss";
 import { getNewBook, setNewBook } from '../../api/localStorage';
-import { Cycle, CycleList } from '../../model/Cycle';
+import { Cycle, CycleList } from '../../../cycles/model/Cycle';
 import { CycleSelect } from '../CycleSelect/CycleSelect';
 
 interface BookFormProps {
@@ -244,7 +244,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                         </label>
                     )}
                 </div>
-                <div className="book-form__half book-form__half_--ight">
+                <div className="book-form__half">
                     <div className="book-form__img">Загрузите фото</div>
                     <label className="form__label book-form__label">
                         <span className="form__label__title">Описание</span>

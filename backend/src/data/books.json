@@ -50,9 +50,9 @@
     "country": "Россия"
   },
   {
-    "id": "00103",
+    "id": "00201",
     "title": "Книга о CI/CD",
-    "authorId": "001",
+    "authorId": "002",
     "description": "Настройка CI/CD",
     "quantity": 3,
     "genres": [
