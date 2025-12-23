@@ -1,8 +1,9 @@
 import { AuthorList } from "../../../authors/model/Author";
+import { GenreList } from "../../../genres/model/Genre";
 import "./Filters.scss";
 
 interface FilterProps {
-    genres: string[],
+    genres: GenreList
     authors: AuthorList,
 }
 
@@ -26,9 +27,9 @@ export const Filters: React.FC<FilterProps> = ({ genres, authors }) => {
                 </button>
                 <div className="sidebar-content sidebar-content_genres">
                     {genres.map((genre) => (
-                        <label key={genre} className="filter-option">
-                            <input type="checkbox" name="genre" value={genre} />
-                            {genre}
+                        <label key={genre.genreTitle} className="filter-option">
+                            <input type="checkbox" name="genre" value={genre.genreTitle} />
+                            {genre.genreTitle}
                         </label>
                     ))}
                 </div>

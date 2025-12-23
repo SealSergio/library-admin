@@ -12,10 +12,11 @@ import "./BookForm.scss";
 import { getNewBook, setNewBook } from '../../api/localStorage';
 import { Cycle, CycleList } from '../../../cycles/model/Cycle';
 import { CycleSelect } from '../CycleSelect/CycleSelect';
+import { GenreList } from '../../../genres/model/Genre';
 
 interface BookFormProps {
     books: Book[],
-    genres: string[],
+    genres: GenreList,
     authors: AuthorList,
     cycles: CycleList,
 }
@@ -26,9 +27,9 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
     const [newBookId, setNewBookId] = useState<string | null>(newBook?.id || null);
     const [newBookTitle, setNewBookTitle] = useState<string | null>(newBook?.title || null);
     const [newBookQuantity, setNewBookQuantity] = useState<number>(newBook?.quantity || 0);
-    const [newBookGenres, setNewBookGenres] = useState<string[]>(newBook?.genres || []);
+    const [newBookGenres, setNewBookGenres] = useState<GenreList>(newBook?.genres || []);
     const [newBookAge, setNewBookAge] = useState<string | null>(newBook?.age || null);
-    const [newBookAuthor, setNewBookAuthor] = useState<{id: string, name: string} | null>(
+    const [newBookAuthor, setNewBookAuthor] = useState<{id: string, fullname: string} | null>(
         newBook?.authorId && authors.find(author => author.id === newBook.authorId) || null
     );
     const [newBookDescription, setNewBookDescription] = useState<string>(newBook?.description || "");
@@ -198,7 +199,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                             onClick={toggleAuthor}
                             {...register("authorId")}
                             type="button">
-                            {newBookAuthor ? newBookAuthor.name : "Автор"}
+                            {newBookAuthor ? newBookAuthor.fullname : "Автор"}
                         </button>
                         {isAuthorSelectOpen && (
                             <ul className="ageList">
@@ -210,7 +211,7 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                                         key={author.id}
                                         className="ageItem"
                                         onClick={() => setNewBookAuthor(author)}>
-                                        {author.name}
+                                        {author.fullname}
                                     </li>
                                 ))}
                         </ul>
@@ -297,7 +298,10 @@ export const BookForm: React.FC<BookFormProps> = ({ books, genres, authors, cycl
                         />
                         {errors.quantity && <p>Должно быть не менее одного экземпляра</p>}
                     </label>
-                    <button className="form__btn form__btn--submit" type="submit" onClick={() => console.log(errors)}>
+                    <button
+                        className="form__btn form__btn--submit"
+                        type="submit"
+                        onClick={() => console.log(Object.keys(errors).length > 0 ? errors : "Ошибок нет")}>
                         Сохранить
                     </button>
                     <button className="form__btn form__btn--reset" type="button">

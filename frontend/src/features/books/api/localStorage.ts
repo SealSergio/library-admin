@@ -1,12 +1,14 @@
+import { GenreList } from "../../genres/model/Genre";
+
 interface NewBook {
-    id: string | null;
-    title: string | null;
-    authorId: string | null;
-    description: string | null;
-    genres: string[] | null;
-    quantity: number;
-    age: string | null;
-    isPartOfCycle: boolean;
+    id: string | null,
+    title: string | null,
+    authorId: string | null,
+    description: string | null,
+    genres: GenreList,
+    quantity: number | null,
+    age: string | null,
+    isPartOfCycle: boolean | null,
     cycle?: {
         cycleId: string,
         cycleName: string,

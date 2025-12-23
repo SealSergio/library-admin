@@ -80,13 +80,11 @@ export const AuthorForm: React.FC<AuthorFormProps> = ({ authors }) => {
     };
 
     function checkForDuplication() {
-        if (authors !== undefined) {
-            const isDuplication = authors.some(author => author.fullname === newAuthorFullname);
-            if (isDuplication) {
-                setIsDuplication(true);
-            } else {
-                setIsDuplication(false);
-            }
+        const isDuplication = authors?.some(author => author.fullname === newAuthorFullname);
+        if (isDuplication) {
+            setIsDuplication(true);
+        } else {
+            setIsDuplication(false);
         }
     };
 

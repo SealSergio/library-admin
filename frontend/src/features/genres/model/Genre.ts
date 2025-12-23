@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const GenreSchema = z.string();
+export const GenreSchema = z.object({
+    genreTitle: z.string(),
+});
 
 export type Genre = z.infer<typeof GenreSchema>;
 

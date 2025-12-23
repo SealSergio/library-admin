@@ -2,15 +2,16 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelect } from "../../../../shared/hooks/useSelect";
 import "./GenresSelect.scss";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
+import { GenreList } from "../../../genres/model/Genre";
 
 interface GenresSelectProps {
-    genres: string[],
-    newBookGenres: string[],
-    setNewBookGenres: React.Dispatch<React.SetStateAction<string[]>>
+    genres: GenreList,
+    newBookGenres: GenreList,
+    setNewBookGenres: React.Dispatch<React.SetStateAction<GenreList>>
 }
 
 export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenres, setNewBookGenres}) => {
-    const [filteredOptions, setFilteredOptions] = useState(genres);
+    const [filteredOptions, setFilteredOptions] = useState<GenreList>(genres);
     const [inputValue, setInputValue] = useState<string>("");
     const inputRef = useRef<HTMLInputElement>(null);
     
@@ -21,10 +22,10 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
     } = useSelect<HTMLDivElement>();
 
     function handleClickOnCheckbox(dataItem: string) {
-        if (newBookGenres.includes(dataItem)) {
+        if (newBookGenres.some(genre => genre.genreTitle === dataItem)) {
             deleteOption(dataItem);
         } else {
-            setNewBookGenres([...newBookGenres, dataItem]);
+            setNewBookGenres([...newBookGenres, {genreTitle: dataItem}]);
         }
 
         if (Boolean(inputValue)) {
@@ -37,7 +38,7 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
     };
 
     function deleteOption(dataItem: string) {
-        setNewBookGenres(newBookGenres.filter(item => item !== dataItem));
+        setNewBookGenres(newBookGenres.filter(item => item.genreTitle !== dataItem));
     }
 
     function handleOnInput(event: ChangeEvent<HTMLInputElement>) {
@@ -47,7 +48,7 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
     useEffect(() => {
         const value = inputValue.toLowerCase().trim();
         if (Boolean(value)) {
-            const filtredGenres = genres.filter(genre => genre.toLowerCase().includes(value));
+            const filtredGenres = genres.filter(genre => genre.genreTitle.toLowerCase().includes(value));
             setFilteredOptions(filtredGenres);
         } else {
             setFilteredOptions(genres);
@@ -59,7 +60,7 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
 
         if (event.key === 'Enter') {
             if (filteredOptions.length === 1) {
-                handleClickOnCheckbox(filteredOptions[0])
+                handleClickOnCheckbox(filteredOptions[0].genreTitle)
             }
         }
 
@@ -87,7 +88,7 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
                             {(provided) => (
                             <ul className="genres-list" {...provided.droppableProps} ref={provided.innerRef}>
                                 {newBookGenres.map((item, index) => (
-                                    <Draggable key={item} draggableId={item} index={index}>
+                                    <Draggable key={item.genreTitle} draggableId={item.genreTitle} index={index}>
                                         {(provided) => (
                                         <li
                                             ref={provided.innerRef}
@@ -95,9 +96,9 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
                                             {...provided.dragHandleProps}
                                             className="genres-item"
                                         >
-                                            {item}
+                                            {item.genreTitle}
                                             <svg
-                                            onClick={() => deleteOption(item)}
+                                            onClick={() => deleteOption(item.genreTitle)}
                                             className="closeBtn"
                                             xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 16 16" >
                                             <path
@@ -133,13 +134,13 @@ export const GenresSelect: React.FC<GenresSelectProps> = ({ genres, newBookGenre
                     <ul className="optionList">
                         {filteredOptions.length > 0 ? (
                             filteredOptions.map((genre) => (
-                            <label key={genre} className="filter-option optionItem">
+                            <label key={genre.genreTitle} className="filter-option optionItem">
                                 <input
                                     type="checkbox"
                                     name="genre"
-                                    checked={newBookGenres.includes(genre)}
-                                    onChange={() => handleClickOnCheckbox(genre)}/>
-                                {genre}
+                                    checked={newBookGenres.some(currentGenre => currentGenre.genreTitle === genre.genreTitle)}
+                                    onChange={() => handleClickOnCheckbox(genre.genreTitle)}/>
+                                {genre.genreTitle}
                             </label>
                         ))
                         ) : (
