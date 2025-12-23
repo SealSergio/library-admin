@@ -52,7 +52,7 @@ export const CreateBookschema = z.object({
   description: z.string().min(20),
   quantity: z.number().positive(),
   comments: z.array(commentSchema).optional(),
-  genres: z.array(z.string()),
+  genres: z.array(z.object({genreTitle: z.string()})),
   age: z.string(),
   // language: z.string(),
   isPartOfCycle: z.boolean(),

@@ -16,9 +16,15 @@
       }
     ],
     "genres": [
-      "novel",
-      "classic",
-      "school"
+      {
+        "genreTitle": "Романы"
+      },
+      {
+        "genreTitle": "Классика"
+      },
+      {
+        "genreTitle": "Исторические"
+      }
     ],
     "age": "12+",
     "language": "russian",
@@ -41,9 +47,12 @@
       }
     ],
     "genres": [
-      "novel",
-      "classic",
-      "school"
+      {
+        "genreTitle": "Романы"
+      },
+      {
+        "genreTitle": "Классика"
+      }
     ],
     "age": "12+",
     "language": "russian",
@@ -56,8 +65,9 @@
     "description": "Настройка CI/CD",
     "quantity": 3,
     "genres": [
-      "Классика",
-      "Фантастика"
+      {
+        "genreTitle": "Научная литература"
+      }
     ],
     "age": "6+",
     "isPartOfCycle": true,
