@@ -5,7 +5,7 @@ import { Account } from "../components/Account/Account";
 
 export const App = () => {
     if ((localStorage.getItem("dark-mode")) === "true") {
-        document.body.classList.add("dark-mode");
+        document.documentElement.classList.add("dark-mode");
     };
 
     return (

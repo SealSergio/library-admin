@@ -12,7 +12,7 @@ export const Header: FC = () => {
         'dark-mode',
         (localStorage.getItem('dark-mode') === 'true' ? 'false' : 'true')
         );
-        document.body.classList.toggle('dark-mode');
+        document.documentElement.classList.toggle('dark-mode');
     }
 
     function handleClickOnBtnExit() {
