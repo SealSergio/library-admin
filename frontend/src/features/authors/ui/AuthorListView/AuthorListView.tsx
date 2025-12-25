@@ -1,7 +1,7 @@
 import { DeletionIcon, EditingIcon } from "../../../../shared/components/Icons/Icons";
 import { BookList } from "../../../books/model/Book";
 import { AuthorList } from "../../model/Author";
-import "./AuthorListView.scss";
+import "../../../../shared/styles/table.scss";
 
 interface AuthorListProps {
     authors: AuthorList,
@@ -10,8 +10,8 @@ interface AuthorListProps {
 
 export const AuthorListView: React.FC<AuthorListProps> = ({ authors, books }) => {
         return (
-            <div className="author__table-wrapper">
-                <table className="author__table">
+            <div className="table-wrapper">
+                <table className="table">
                     <thead>
                         <tr>
                             <th>ID</th>

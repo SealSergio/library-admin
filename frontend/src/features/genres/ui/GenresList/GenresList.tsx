@@ -1,7 +1,7 @@
 import { DeletionIcon, EditingIcon } from "../../../../shared/components/Icons/Icons";
 import { BookList } from "../../../books/model/Book";
 import { GenreList } from "../../model/Genre";
-import "./GenresList.scss";
+import "../../../../shared/styles/table.scss";
 
 interface GenresListProps {
     genres: GenreList,
@@ -10,8 +10,8 @@ interface GenresListProps {
 
 export const GenresList: React.FC<GenresListProps> = ({ genres, books }) => {
     return (
-        <div className="author__table-wrapper">
-            <table className="author__table">
+        <div className="table-wrapper">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Жанр</th>
