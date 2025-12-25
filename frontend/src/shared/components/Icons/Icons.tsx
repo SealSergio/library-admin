@@ -1,10 +1,10 @@
 import "./Icon.scss";
 
 interface IconsProps extends React.SVGProps<SVGSVGElement> {
-    customClass: string | null,
+    customClass?: string | null,
 }
 
-export const EditingIcon: React.FC<IconsProps> = ({ customClass, ...rest }) => {
+export const EditingIcon: React.FC<IconsProps> = ({ customClass = null, ...rest }) => {
     return (
         <svg
             {...rest}
@@ -29,7 +29,7 @@ export const EditingIcon: React.FC<IconsProps> = ({ customClass, ...rest }) => {
     )
 }
 
-export const DeletionIcon: React.FC<IconsProps> = ({ customClass, ...rest }) => {
+export const DeletionIcon: React.FC<IconsProps> = ({ customClass = null, ...rest }) => {
     return (
         <svg
             {...rest}

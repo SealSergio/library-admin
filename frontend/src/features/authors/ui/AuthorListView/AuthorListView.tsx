@@ -28,10 +28,10 @@ export const AuthorListView: React.FC<AuthorListProps> = ({ authors, books }) =>
                                 <td>{author.fullname}</td>
                                 <td>{(books.filter((book) => book.authorId === author.id)).length}</td>
                                 <td>
-                                    <EditingIcon customClass={null}/>
+                                    <EditingIcon />
                                 </td>
                                 <td>
-                                    <DeletionIcon customClass={null}/>
+                                    <DeletionIcon />
                                 </td>
                             </tr>
                         )}

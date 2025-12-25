@@ -28,10 +28,10 @@ export const GenresList: React.FC<GenresListProps> = ({ genres, books }) => {
                                 currentBookGenre.genreTitle === genre.genreTitle))).length}
                             </td>
                             <td>
-                                <EditingIcon customClass={null}/>
+                                <EditingIcon />
                             </td>
                             <td>
-                                <DeletionIcon customClass={null}/>
+                                <DeletionIcon />
                             </td>
                         </tr>
                     )}
