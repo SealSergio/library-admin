@@ -1,18 +1,12 @@
-interface NewAuthor {
-    id: string | null;
-    surname: string | null;
-    name: string | null;
-    secondName: string | null;
-    fullname: string | null;
-    abbreviatedName: string | null;
+import { getItem, setItem, WithNull } from "../../../shared/lib/storage/localStorage";
+import { Author } from "../model/Author";
+
+type NewAuthor = WithNull<Author>;
+
+export const getNewAuthor = () => {
+    return getItem<NewAuthor>("newAuthor");
 }
 
-export function getNewAuthor() {
-    const newAuthorData = localStorage.getItem("newAuthor");
-
-    return newAuthorData ? JSON.parse(newAuthorData) : null;
-}
-
-export function setNewAuthor(newAuthor: NewAuthor) {
-    localStorage.setItem("newAuthor", JSON.stringify(newAuthor));
+export const setNewAuthor = (newAuthor: NewAuthor) => {
+    return setItem<NewAuthor>("newAuthor", newAuthor);
 }

@@ -1,28 +1,12 @@
-import { GenreList } from "../../genres/model/Genre";
+import { getItem, setItem, WithNull } from "../../../shared/lib/storage/localStorage";
+import { Book } from "../model/Book";
 
-interface NewBook {
-    id: string | null,
-    title: string | null,
-    authorId: string | null,
-    description: string | null,
-    genres: GenreList,
-    quantity: number | null,
-    age: string | null,
-    isPartOfCycle: boolean | null,
-    cycle?: {
-        cycleId: string,
-        cycleName: string,
-        authorId: string,
-        booksInCycle: string[],
-    } | null
+type NewBook = WithNull<Book>;
+
+export const getNewBook = () => {
+    return getItem<NewBook>("newBook");
 }
 
-export function getNewBook() {
-    const newBookData = localStorage.getItem("newBook");
-
-    return newBookData ? JSON.parse(newBookData) : null;
-}
-
-export function setNewBook(newBook: NewBook) {
-    localStorage.setItem("newBook", JSON.stringify(newBook));
+export const setNewBook = (newBook: NewBook) => {
+    return setItem<NewBook>("newBook", newBook);
 }

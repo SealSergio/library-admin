@@ -6,7 +6,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { Select } from '../../../../shared/components/Select/Select';
 import { useSelect } from '../../../../shared/hooks/useSelect';
 import { AuthorList } from "../../../authors/model/Author";
-import { Book, BookSchema } from "../../model/Book";
+import { Book, BookList, BookSchema } from "../../model/Book";
 import { GenresSelect } from '../GenresSelect/GenresSelect';
 import "./BookForm.scss";
 import { getNewBook, setNewBook } from '../../api/localStorage';
@@ -15,7 +15,7 @@ import { CycleSelect } from '../CycleSelect/CycleSelect';
 import { GenreList } from '../../../genres/model/Genre';
 
 interface BookFormProps {
-    books: Book[],
+    books: BookList,
     genres: GenreList,
     authors: AuthorList,
     cycles: CycleList,

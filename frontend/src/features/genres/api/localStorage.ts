@@ -1,13 +1,12 @@
-interface NewGenre {
-    genreTitle: string | null;
+import { getItem, setItem, WithNull } from "../../../shared/lib/storage/localStorage";
+import { Genre } from "../model/Genre";
+
+type NewGenre = WithNull<Genre>;
+
+export const getNewGenre = () => {
+    return getItem<NewGenre>("newGenre");
 }
 
-export function getNewGenre() {
-    const newGenreData = localStorage.getItem("newGenre");
-
-    return newGenreData ? JSON.parse(newGenreData) : null;
-}
-
-export function setNewGenre(newGenre: NewGenre) {
-    localStorage.setItem("newGenre", JSON.stringify(newGenre));
+export const setNewGenre = (newGenre: NewGenre) => {
+    return setItem<NewGenre>("newGenre", newGenre);
 }
