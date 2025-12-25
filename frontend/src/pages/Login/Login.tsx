@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { login } from '../../app/User';
 import { queryClient } from '../../app/queryClient';
 import "./Login.scss";
+import "../../shared/styles/form.scss";
 
 export const Login: FC = () => {
   const [username, setUsername] = useState('');
