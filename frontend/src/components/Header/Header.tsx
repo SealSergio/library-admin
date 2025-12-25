@@ -3,16 +3,13 @@ import { logout } from "../../app/User";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../app/queryClient";
 import "./Header.scss";
+import { setNewMode } from "../../shared/lib/mode/mode";
 
 export const Header: FC = () => {
     // handleClickOnBtnUser();
 
     function handleClickOnBtnMode() {
-        localStorage.setItem(
-        'dark-mode',
-        (localStorage.getItem('dark-mode') === 'true' ? 'false' : 'true')
-        );
-        document.documentElement.classList.toggle('dark-mode');
+        setNewMode();
     }
 
     function handleClickOnBtnExit() {
