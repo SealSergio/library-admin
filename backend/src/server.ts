@@ -8,7 +8,7 @@ import {
           genresRouter,
           cyclesRouter,
           authRouter,
-          usersRouter
+          adminsRouter
         }  from './routes/index.js';
 
 const server = express();
@@ -19,8 +19,8 @@ server.listen(4000, () => {
 
 server.use(json(), cookieParser(), cors());
 
-server.use('/users', usersRouter);
 server.use('/', authRouter);
+server.use('/admins', adminsRouter);
 server.use('/register', authRouter);
 server.use('/books', booksRouter);
 server.use('/authors', authorsRouter);

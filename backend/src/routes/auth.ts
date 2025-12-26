@@ -2,38 +2,51 @@ import { Router } from 'express';
 import { z } from 'zod';
 
 import { authorizeResponse, unauthorizeResponse } from '../auth.js';
-import { IUser, Users } from '../database/Users.js';
-import { Passwords } from '../database/Passwords.js';
+import { IAdmin, Admins } from '../database/admins/Admins.js';
+import { Passwords } from '../database/admins/Passwords.js';
 
 export const authRouter = Router();
 
 const AuthSchema = z.object({
-  username: z.string().min(4),
+  login: z.string().min(4),
   password: z.string().min(8),
 });
 
+const AdminSchema = z.object({
+  login: z.string().min(4),
+  surname: z.string().min(4),
+  name: z.string().min(4),
+  accessLevel: z.string().min(4),
+  password: z.string().min(8)
+});
+
 authRouter.post('/register', async (req, res) => {
-  const bodyParseResult = AuthSchema.safeParse(req.body);
+  const bodyParseResult = AdminSchema.safeParse(req.body);
 
   if (!bodyParseResult.success) {
     return res.status(400).send(bodyParseResult.error.message);
   }
 
-  const { username, password } = bodyParseResult.data;
+  const { login, surname, name, accessLevel, password } = bodyParseResult.data;
 
-  let user: IUser;
+  let admin: IAdmin;
 
   try {
-    user = await Users.create(username);
+    admin = await Admins.create({
+      login,
+      surname,
+      name,
+      accessLevel
+    });
   } catch (error) {
     
     // return res.status(409).send(`Это имя пользователя уже занято`);
     return res.status(409).send(`Ошибка: ${error}`);
   }
 
-  await Passwords.create(user.id, password);
+  await Passwords.create(admin.login, password);
 
-  authorizeResponse(res, user.id).status(201).json({ id: user.id });
+  authorizeResponse(res, admin.login).status(201).json({ login: admin.login });
 });
 
 authRouter.post('/login', (req, res) => {
@@ -43,15 +56,15 @@ authRouter.post('/login', (req, res) => {
     return res.status(400).send(bodyParseResult.error.message);
   }
 
-  const { username, password } = bodyParseResult.data;
+  const { login, password } = bodyParseResult.data;
 
-  const user = Users.findOne((user) => user.username === username);
+  const admin = Admins.findOne((admin) => admin.login === login);
 
-  if (!user || !Passwords.verify(user.id, password)) {
+  if (!admin || !Passwords.verify(admin.login, password)) {
     return res.status(401).send('Неверное имя пользователя или пароль');
   }
 
-  authorizeResponse(res, user.id).status(200).send();
+  authorizeResponse(res, admin.login).status(200).send();
 });
 
 authRouter.post('/logout', (req, res) => {

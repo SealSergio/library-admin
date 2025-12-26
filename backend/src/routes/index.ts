@@ -1,11 +1,11 @@
-export * from "./authors.js";
+export * from "./books/authors.js";
 
-export * from "./books.js";
+export * from "./books/books.js";
 
-export * from "./genres.js";
+export * from "./books/genres.js";
 
-export * from "./cycles.js";
+export * from "./books/cycles.js";
 
 export * from "./auth.js";
 
-export * from "./users.js";
+export * from "./admins.js";

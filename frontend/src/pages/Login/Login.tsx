@@ -1,17 +1,17 @@
 import { FC, FormEventHandler, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { login } from '../../app/User';
+import { login } from '../../features/auth/api/auth';
 import { queryClient } from '../../app/queryClient';
 import "./Login.scss";
 import "../../shared/styles/form.scss";
 
 export const Login: FC = () => {
-  const [username, setUsername] = useState('');
+  const [loginName, setLoginName] = useState('');
   const [password, setPassword] = useState('');
 
   const loginMutation = useMutation(
     {
-      mutationFn: () => login(username, password),
+      mutationFn: () => login(loginName, password),
       onSuccess() {
         queryClient.invalidateQueries({queryKey: ["users", "me"]});
       },
@@ -36,8 +36,8 @@ export const Login: FC = () => {
               className="form__input login-window__input"
               type="text"
               placeholder="Введите логин"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={loginName}
+              onChange={(e) => setLoginName(e.target.value)}
               required
             />
           </label>

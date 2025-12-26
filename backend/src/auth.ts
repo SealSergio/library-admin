@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 
-export function createToken(userId: string): string {
+export function createToken(adminId: string): string {
   return jwt.sign(
     {
-      userId,
+      adminId,
     },
     'secret'
   );
@@ -20,7 +20,7 @@ export function authorizeToken(token: string): string | undefined {
   }
 
   if (typeof result === 'object') {
-    return result.userId;
+    return result.adminId;
   }
 
   return undefined;
@@ -36,9 +36,9 @@ export function authorizeRequest(request: Request): string | undefined {
 
 export function authorizeResponse(
   response: Response,
-  userId: string
+  adminId: string
 ): Response {
-  return response.cookie('auth', createToken(userId), {
+  return response.cookie('auth', createToken(adminId), {
     httpOnly: true,
   });
 }

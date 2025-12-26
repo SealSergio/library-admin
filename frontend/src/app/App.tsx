@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Account } from "../components/Account/Account";
+import { Auth } from "../features/auth/ui/Auth";
 import { getCurrentMode, setNewMode } from "../shared/lib/mode/mode";
 
 export const App = () => {
@@ -13,7 +13,7 @@ export const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="*" element={
-                    <Account
+                    <Auth
                 />} />
             </Routes>
         </BrowserRouter>
