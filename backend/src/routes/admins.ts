@@ -1,32 +1,49 @@
 import { Router } from 'express';
+import { z } from 'zod';
 
-import { authorizeRequest } from '../auth.js';
-import { Admins } from '../database/admins/Admins.js';
+import { authorizeResponse } from '../auth.js';
+import { IAdmin, Admins } from '../database/admins/Admins.js';
+import { Passwords } from '../database/admins/Passwords.js';
 
 export const adminsRouter = Router();
 
-adminsRouter.get('/me', (req, res) => {
-  const adminId = authorizeRequest(req);
-
-  if (!adminId) {
-    return res.status(401).send('Unauthorized');
-  }
-
-  const admin = Admins.getOne(adminId);
-
-  if (!admin) {
-    return res.status(404).send('Пользователь не найден');
-  }
-
-  res.status(200).json(admin);
+const AdminSchema = z.object({
+  login: z.string().min(4),
+  surname: z.string(),
+  name: z.string(),
+  accessLevel: z.string(),
+  password: z.string().min(8)
 });
 
-// adminsRouter.get('/:id', (req, res) => {
-//   const admin = Admins.getOne(req.params.id);
+adminsRouter.post('/register', async (req, res) => {
+  const bodyParseResult = AdminSchema.safeParse(req.body);
 
-//   if (!admin) {
-//     return res.status(404).send('Пользователь не найден');
-//   }
+  if (!bodyParseResult.success) {
+    return res.status(400).send(bodyParseResult.error.message);
+  }
 
-//   res.status(200).json(admin);
-// });
+  const {
+    login,
+    surname,
+    name,
+    accessLevel,
+    password
+  } = bodyParseResult.data;
+
+  let admin: IAdmin;
+
+  try {
+    admin = await Admins.create({
+      login,
+      surname,
+      name,
+      accessLevel
+    });
+  } catch (error) {
+    return res.status(409).send(`Ошибка: ${error}`);
+  }
+
+  await Passwords.create(admin.login, password);
+
+  authorizeResponse(res, admin.login).status(201).json({ login: admin.login });
+});

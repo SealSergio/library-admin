@@ -3,13 +3,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import {
-          booksRouter,
-          authorsRouter,
-          genresRouter,
-          cyclesRouter,
-          authRouter,
-          adminsRouter
-        }  from './routes/index.js';
+  authRouter,
+  adminsRouter,
+  booksRouter
+}  from './routes/index.js';
 
 const server = express();
 
@@ -19,10 +16,6 @@ server.listen(4000, () => {
 
 server.use(json(), cookieParser(), cors());
 
-server.use('/', authRouter);
+server.use('/auth', authRouter);
 server.use('/admins', adminsRouter);
-server.use('/register', authRouter);
 server.use('/books', booksRouter);
-server.use('/authors', authorsRouter);
-server.use('/genres', genresRouter);
-server.use('/cycles', cyclesRouter);

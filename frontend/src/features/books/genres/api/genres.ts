@@ -6,7 +6,7 @@ export const genresApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'api' }),
   endpoints: (builder) => ({
     getAllGenres: builder.query<GenreList, void>({
-      query: () => '/genres',
+      query: () => '/books/genres',
     }),
   }),
 });

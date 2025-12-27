@@ -6,7 +6,7 @@ export const authorsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'api' }),
   endpoints: (builder) => ({
     getAllAuthors: builder.query<AuthorList, void>({
-      query: () => '/authors',
+      query: () => '/books/authors',
     }),
   }),
 });

@@ -1,11 +1,7 @@
-export * from "./books/authors.js";
+export { booksParentRouter as booksRouter } from "./books/index.js";
 
-export * from "./books/books.js";
+// export { usersParentRouter as usersRouter } from "./users/index.js";
 
-export * from "./books/genres.js";
+export { authRouter } from "./auth.js";
 
-export * from "./books/cycles.js";
-
-export * from "./auth.js";
-
-export * from "./admins.js";
+export { adminsRouter } from "./admins.js";

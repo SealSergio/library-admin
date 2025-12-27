@@ -23,6 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 .env
-
-# todo list
-TODO.md

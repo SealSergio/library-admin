@@ -6,7 +6,7 @@ export const cyclesApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'api' }),
   endpoints: (builder) => ({
     getAllCycles: builder.query<CycleList, void>({
-      query: () => '/cycles',
+      query: () => '/books/cycles',
     }),
   }),
 });
