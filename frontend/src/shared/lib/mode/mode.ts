@@ -1,8 +1,11 @@
 export const getCurrentMode = (): string | null => {
     const currentMode = localStorage.getItem('color-mode');
-    console.log("currentMode: ", currentMode);
-
-    return currentMode;
+    console.log(currentMode)
+    if (currentMode === 'dark-mode' || currentMode === 'light-mode') {
+        return currentMode;
+    } else {
+        return null;
+    }
 }
 
 export const setNewMode = (): void => {
@@ -12,4 +15,10 @@ export const setNewMode = (): void => {
     );
 
     document.documentElement.classList.toggle('dark-mode');
+}
+
+export const setDefaultMode = (): void => {
+    if (getCurrentMode() === null) {
+        setNewMode();
+    };
 }

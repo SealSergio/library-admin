@@ -2,12 +2,14 @@ import React from "react";
 import "./App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Auth } from "../features/auth/ui/Auth";
-import { getCurrentMode, setNewMode } from "../shared/lib/mode/mode";
+import { setDefaultMode } from "../shared/lib/mode/mode";
 
 export const App = () => {
-    if (getCurrentMode() === null) {
-        setNewMode();
-    };
+    try {
+        setDefaultMode();
+    } catch (error) {
+        // Игнорируем ошибку
+    }
 
     return (
         <BrowserRouter>
@@ -18,4 +20,4 @@ export const App = () => {
             </Routes>
         </BrowserRouter>
     );
-};
+}
