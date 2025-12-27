@@ -1,20 +1,23 @@
 import React from "react";
 import "./App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Account } from "../components/Account/Account";
+import { Auth } from "../features/auth/ui/Auth";
+import { setDefaultMode } from "../shared/lib/mode/mode";
 
 export const App = () => {
-    if ((localStorage.getItem("dark-mode")) === "true") {
-        document.body.classList.add("dark-mode");
-    };
+    try {
+        setDefaultMode();
+    } catch (error) {
+        // Игнорируем ошибку
+    }
 
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="*" element={
-                    <Account
+                    <Auth
                 />} />
             </Routes>
         </BrowserRouter>
     );
-};
+}

@@ -1,13 +1,13 @@
 import { Provider } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { store } from "../../app/providers/store";
-import { Aside } from "../../components/Aside/Aside";
-import { Header } from "../../components/Header/Header";
-import { AuthorsMain } from "../../features/authors/ui/AuthorsMain/AuthorsMain";
-import { BooksMain } from "../../features/books/ui/BooksMain/BooksMain";
+import { Aside } from "./Aside/Aside";
+import { Header } from "./Header/Header";
+import { AuthorsMain } from "../../features/books/authors/ui/AuthorsMain/AuthorsMain";
+import { BooksMain } from "../../features/books/books/ui/BooksMain/BooksMain";
 import { Support } from "../../features/support/ui/Support";
-import { CyclesMain } from "../../features/cycles/ui/CyclesMain/CyclesMain";
-import { GenresMain } from "../../features/genres/ui/GenresMain/GenresMain";
+import { CyclesMain } from "../../features/books/cycles/ui/CyclesMain/CyclesMain";
+import { GenresMain } from "../../features/books/genres/ui/GenresMain/GenresMain";
 import "./MainPage.scss";
 
 export const MainPage: React.FC = () => {

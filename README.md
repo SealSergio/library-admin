@@ -6,7 +6,7 @@
 
 Сайт расположен на [es-libris.ru](https://es-libris.ru)
 
-![главная страница](.main_page.png)
+![главная страница](./docs/img/main-page.png)
 
 <!-- ## Как посмотреть
 
