@@ -1,5 +1,5 @@
 import { JSONFilePreset } from "lowdb/node";
-import { Book } from "../../routes";
+import { Book } from "../../routes/books/books.js";
 import { writeFile } from 'fs/promises';
 
 const database = await JSONFilePreset<Record<string, Book>>("./src/data/books/books.json", {});
